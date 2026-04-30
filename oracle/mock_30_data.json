@@ -1,0 +1,81 @@
+[
+  {
+    "category": "1X2",
+    "matches": [
+      {
+        "home": "Colombia",
+        "away": "Brasil",
+        "question": "[SUBJECT: Colombia vs Brasil] [METRIC: Victory] [THRESHOLD: 1X2] ¿Resultado del partido Colombia vs Brasil?"
+      },
+      {
+        "home": "Argentina",
+        "away": "México",
+        "question": "[SUBJECT: Argentina vs México] [METRIC: Victory] [THRESHOLD: 1X2] ¿Resultado del partido Argentina vs México?"
+      },
+      {
+        "home": "Panamá",
+        "away": "Estados Unidos",
+        "question": "[SUBJECT: Panamá vs Estados Unidos] [METRIC: Victory] [THRESHOLD: 1X2] ¿Resultado del partido Panamá vs Estados Unidos?"
+      },
+      {
+        "home": "España",
+        "away": "Francia",
+        "question": "[SUBJECT: España vs Francia] [METRIC: Victory] [THRESHOLD: 1X2] ¿Resultado del partido España vs Francia?"
+      },
+      {
+        "home": "Inglaterra",
+        "away": "Alemania",
+        "question": "[SUBJECT: Inglaterra vs Alemania] [METRIC: Victory] [THRESHOLD: 1X2] ¿Resultado del partido Inglaterra vs Alemania?"
+      },
+      {
+        "home": "Italia",
+        "away": "Portugal",
+        "question": "[SUBJECT: Italia vs Portugal] [METRIC: Victory] [THRESHOLD: 1X2] ¿Resultado del partido Italia vs Portugal?"
+      }
+    ]
+  },
+  {
+    "category": "Classic Binary",
+    "markets": [
+      { "question": "¿Llegará Solana a $250 antes de junio?" },
+      { "question": "¿Aprobará la SEC el próximo ETF?" },
+      { "question": "¿Superará BTC los $100k este mes?" },
+      { "question": "¿Será ETH deflacionario el resto del año?" },
+      { "question": "¿Lanzará Apple su propia billetera crypto?" },
+      { "question": "¿Llegará la dominancia de BTC al 60%?" }
+    ]
+  },
+  {
+    "category": "Head-to-Head",
+    "markets": [
+      { "question": "Elecciones Presidenciales: ¿Ganará Candidato A?" },
+      { "question": "Batalla de Marcas: ¿Ganará Coca Cola en market share este trimestre?" },
+      { "question": "Final eSports: ¿Ganará T1 contra Gen.G?" },
+      { "question": "Mejor App de Trading: ¿Tendrá Robinhood más usuarios que Coinbase este mes?" },
+      { "question": "Lanzamiento Cohete: ¿Tendrá éxito el próximo lanzamiento de SpaceX?" },
+      { "question": "Duelo de IAs: ¿Superará Gemini a GPT-5 en el benchmark MMLU?" }
+    ]
+  },
+  {
+    "category": "PollaVault",
+    "vaults": [
+      { "title": "Polla Oficina Central" },
+      { "title": "Crypto Degens VIP" },
+      { "title": "Torneo Zona Libre" },
+      { "title": "Mundialistas Pro" },
+      { "title": "Betting Syndicate" },
+      { "title": "Futboleros Unidos" }
+    ]
+  },
+  {
+    "category": "Multi-Level",
+    "markets": [
+      { "title": "Precio de Ethereum a fin de mes" },
+      { "title": "Dominancia de BTC" },
+      { "title": "TVL en L2s" },
+      { "title": "Cierre Semanal de SOL" },
+      { "title": "Stablecoin Market Cap" },
+      { "title": "NFT Volume" }
+    ]
+  }
+]

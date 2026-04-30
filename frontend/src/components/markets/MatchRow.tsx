@@ -1,4 +1,5 @@
 import React from 'react';
+import { cn } from "@/lib/utils";
 
 interface MatchRowProps {
   league: string;
@@ -10,6 +11,8 @@ interface MatchRowProps {
   homePrice: string;
   drawPrice: string;
   awayPrice: string;
+  homeButtonColor?: string;
+  awayButtonColor?: string;
 }
 
 const MatchRow: React.FC<MatchRowProps> = ({
@@ -22,6 +25,8 @@ const MatchRow: React.FC<MatchRowProps> = ({
   homePrice,
   drawPrice,
   awayPrice,
+  homeButtonColor,
+  awayButtonColor,
 }) => {
   return (
     <div className="bg-white rounded-[2rem] border border-zinc-200 p-6 mb-4 shadow-sm hover:shadow-md transition-all">
@@ -45,7 +50,10 @@ const MatchRow: React.FC<MatchRowProps> = ({
 
         {/* Botones 1X2 */}
         <div className="flex gap-3 h-14">
-          <button className="flex-1 rounded-2xl bg-zinc-50 border border-zinc-100 text-zinc-900 font-bold flex flex-col items-center justify-center hover:bg-emerald-500 hover:text-white hover:border-emerald-600 transition-all group">
+          <button className={cn(
+            "flex-1 rounded-2xl bg-zinc-50 border border-zinc-100 text-zinc-900 font-bold flex flex-col items-center justify-center transition-all group",
+            homeButtonColor ? `hover:${homeButtonColor} hover:text-white hover:border-transparent` : "hover:bg-emerald-500 hover:text-white hover:border-emerald-600"
+          )}>
             <span className="text-[10px] opacity-60 font-black mb-0.5">1</span>
             <span className="font-mono">{homePrice}</span>
           </button>
@@ -53,7 +61,10 @@ const MatchRow: React.FC<MatchRowProps> = ({
             <span className="text-[10px] opacity-60 font-black mb-0.5">X</span>
             <span className="font-mono">{drawPrice}</span>
           </button>
-          <button className="flex-1 rounded-2xl bg-zinc-50 border border-zinc-100 text-zinc-900 font-bold flex flex-col items-center justify-center hover:bg-red-500 hover:text-white hover:border-red-600 transition-all group">
+          <button className={cn(
+            "flex-1 rounded-2xl bg-zinc-50 border border-zinc-100 text-zinc-900 font-bold flex flex-col items-center justify-center transition-all group",
+            awayButtonColor ? `hover:${awayButtonColor} hover:text-white hover:border-transparent` : "hover:bg-red-500 hover:text-white hover:border-red-600"
+          )}>
             <span className="text-[10px] opacity-60 font-black mb-0.5">2</span>
             <span className="font-mono">{awayPrice}</span>
           </button>

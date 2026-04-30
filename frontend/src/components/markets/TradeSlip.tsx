@@ -3,7 +3,7 @@ import { TransactionButton, useActiveAccount } from "thirdweb/react";
 import { prepareContractCall, getContract } from "thirdweb";
 import { client } from "@/providers/web3-provider";
 import { baseSepolia } from "thirdweb/chains";
-import { parseUnits } from "ethers";
+import { parseUnits } from "viem";
 
 interface TradeSlipProps {
   marketAddress?: string;

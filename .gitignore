@@ -6,7 +6,7 @@
 
 # Dependencias
 node_modules/
-lib/
+contracts/lib/
 out/
 cache/
 

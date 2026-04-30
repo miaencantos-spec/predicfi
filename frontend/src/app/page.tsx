@@ -7,7 +7,13 @@ import { TrendingUp, Users, Zap, History } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import MatchRow from '@/components/markets/MatchRow';
 import PollaVaultCard from '@/components/markets/PollaVaultCard';
-import { mockMatches, pollaVaultMock, mockProMarkets } from '@/lib/mockMarkets';
+import { 
+  mockMatches, 
+  mockPollaVaults, 
+  mockBinaryMarkets, 
+  mockMultiLevelMarkets, 
+  mockHeadToHeadMarkets 
+} from '@/lib/mockMarkets';
 
 export default function Home() {
   const [activeMarkets, setActiveMarkets] = useState<any[]>([]);
@@ -85,26 +91,53 @@ export default function Home() {
             </h3>
           </div>
           
-          <div className="space-y-12">
-            {/* 1. Formato 1X2 & 2. PollaVault */}
+          <div className="space-y-16">
+            {/* 1. Formato 1X2 */}
             <div>
-              <h4 className="text-lg font-black text-zinc-500 mb-4 uppercase tracking-widest">1. Formato 1X2 & 2. Pari-Mutuel (Deportes)</h4>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div className="space-y-4">
-                  <MatchRow {...mockMatches[0]} />
-                </div>
-                <div>
-                  <PollaVaultCard {...pollaVaultMock} />
-                </div>
+              <h4 className="text-lg font-black text-zinc-500 mb-6 uppercase tracking-widest border-l-4 border-yellow-400 pl-4">1. Formato 1X2 (Mundial 2026)</h4>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {mockMatches.map((match, idx) => (
+                  <MatchRow key={`match-${idx}`} {...match} />
+                ))}
               </div>
             </div>
 
-            {/* 3, 4, 5. Formatos Pro / Crypto / Eventos */}
+            {/* 2. Formato PollaVault */}
             <div>
-              <h4 className="text-lg font-black text-zinc-500 mb-4 uppercase tracking-widest">3, 4, 5. Formatos Clásico, Multi-Nivel y Eventos</h4>
+              <h4 className="text-lg font-black text-zinc-500 mb-6 uppercase tracking-widest border-l-4 border-emerald-500 pl-4">2. Formato PollaVault (Pari-Mutuel)</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {mockProMarkets.map((market, idx) => (
-                  <MarketCard key={`mock-${idx}`} {...market} />
+                {mockPollaVaults.map((vault, idx) => (
+                  <PollaVaultCard key={`vault-${idx}`} {...vault} />
+                ))}
+              </div>
+            </div>
+
+            {/* 3. Formato Binario Clásico */}
+            <div>
+              <h4 className="text-lg font-black text-zinc-500 mb-6 uppercase tracking-widest border-l-4 border-blue-500 pl-4">3. Formato Binario Clásico (Crypto SÍ/NO)</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {mockBinaryMarkets.map((market, idx) => (
+                  <MarketCard key={`binary-${idx}`} {...market} />
+                ))}
+              </div>
+            </div>
+
+            {/* 4. Formato Multi-Nivel */}
+            <div>
+              <h4 className="text-lg font-black text-zinc-500 mb-6 uppercase tracking-widest border-l-4 border-purple-500 pl-4">4. Formato Multi-Nivel (Agrupadores)</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {mockMultiLevelMarkets.map((market, idx) => (
+                  <MarketCard key={`multi-${idx}`} {...market} />
+                ))}
+              </div>
+            </div>
+
+            {/* 5. Formato Cara a Cara */}
+            <div>
+              <h4 className="text-lg font-black text-zinc-500 mb-6 uppercase tracking-widest border-l-4 border-red-500 pl-4">5. Formato Cara a Cara (Eventos Directos)</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {mockHeadToHeadMarkets.map((market, idx) => (
+                  <MarketCard key={`h2h-${idx}`} {...market} />
                 ))}
               </div>
             </div>
