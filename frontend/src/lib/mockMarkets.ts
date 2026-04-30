@@ -336,3 +336,11 @@ export const mockHeadToHeadMarkets = [
     customNoStyle: "bg-zinc-100 text-zinc-900 border-zinc-200 hover:bg-zinc-800 hover:text-white shadow-zinc-100"
   }
 ];
+
+export const mockProMarkets = [
+  ...mockBinaryMarkets,
+  ...mockMultiLevelMarkets,
+  ...mockHeadToHeadMarkets
+];
+
+export const pollaVaultMock = mockPollaVaults[0];
