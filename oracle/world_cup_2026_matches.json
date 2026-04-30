@@ -1,0 +1,834 @@
+[
+  {
+    "matchNumber": 1,
+    "teamA": "Mexico",
+    "teamB": "South Africa",
+    "group": "A",
+    "date": "2026-06-11",
+    "question": "[SUBJECT: Mexico vs South Africa] [METRIC: Victory] [THRESHOLD: Mexico Win] [SOURCE: FIFA Official] [TIME: 2026-06-11 20:00 GMT] ¿Ganará Mexico su partido contra South Africa?"
+  },
+  {
+    "matchNumber": 2,
+    "teamA": "Korea Republic",
+    "teamB": "Czechia",
+    "group": "A",
+    "date": "2026-06-11",
+    "question": "[SUBJECT: Korea Republic vs Czechia] [METRIC: Victory] [THRESHOLD: Korea Republic Win] [SOURCE: FIFA Official] [TIME: 2026-06-11 20:00 GMT] ¿Ganará Korea Republic su partido contra Czechia?"
+  },
+  {
+    "matchNumber": 3,
+    "teamA": "Mexico",
+    "teamB": "Korea Republic",
+    "group": "A",
+    "date": "2026-06-11",
+    "question": "[SUBJECT: Mexico vs Korea Republic] [METRIC: Victory] [THRESHOLD: Mexico Win] [SOURCE: FIFA Official] [TIME: 2026-06-11 20:00 GMT] ¿Ganará Mexico su partido contra Korea Republic?"
+  },
+  {
+    "matchNumber": 4,
+    "teamA": "Czechia",
+    "teamB": "South Africa",
+    "group": "A",
+    "date": "2026-06-11",
+    "question": "[SUBJECT: Czechia vs South Africa] [METRIC: Victory] [THRESHOLD: Czechia Win] [SOURCE: FIFA Official] [TIME: 2026-06-11 20:00 GMT] ¿Ganará Czechia su partido contra South Africa?"
+  },
+  {
+    "matchNumber": 5,
+    "teamA": "Czechia",
+    "teamB": "Mexico",
+    "group": "A",
+    "date": "2026-06-12",
+    "question": "[SUBJECT: Czechia vs Mexico] [METRIC: Victory] [THRESHOLD: Czechia Win] [SOURCE: FIFA Official] [TIME: 2026-06-12 20:00 GMT] ¿Ganará Czechia su partido contra Mexico?"
+  },
+  {
+    "matchNumber": 6,
+    "teamA": "South Africa",
+    "teamB": "Korea Republic",
+    "group": "A",
+    "date": "2026-06-12",
+    "question": "[SUBJECT: South Africa vs Korea Republic] [METRIC: Victory] [THRESHOLD: South Africa Win] [SOURCE: FIFA Official] [TIME: 2026-06-12 20:00 GMT] ¿Ganará South Africa su partido contra Korea Republic?"
+  },
+  {
+    "matchNumber": 7,
+    "teamA": "Canada",
+    "teamB": "Switzerland",
+    "group": "B",
+    "date": "2026-06-12",
+    "question": "[SUBJECT: Canada vs Switzerland] [METRIC: Victory] [THRESHOLD: Canada Win] [SOURCE: FIFA Official] [TIME: 2026-06-12 20:00 GMT] ¿Ganará Canada su partido contra Switzerland?"
+  },
+  {
+    "matchNumber": 8,
+    "teamA": "Qatar",
+    "teamB": "Bosnia and Herzegovina",
+    "group": "B",
+    "date": "2026-06-12",
+    "question": "[SUBJECT: Qatar vs Bosnia and Herzegovina] [METRIC: Victory] [THRESHOLD: Qatar Win] [SOURCE: FIFA Official] [TIME: 2026-06-12 20:00 GMT] ¿Ganará Qatar su partido contra Bosnia and Herzegovina?"
+  },
+  {
+    "matchNumber": 9,
+    "teamA": "Canada",
+    "teamB": "Qatar",
+    "group": "B",
+    "date": "2026-06-13",
+    "question": "[SUBJECT: Canada vs Qatar] [METRIC: Victory] [THRESHOLD: Canada Win] [SOURCE: FIFA Official] [TIME: 2026-06-13 20:00 GMT] ¿Ganará Canada su partido contra Qatar?"
+  },
+  {
+    "matchNumber": 10,
+    "teamA": "Bosnia and Herzegovina",
+    "teamB": "Switzerland",
+    "group": "B",
+    "date": "2026-06-13",
+    "question": "[SUBJECT: Bosnia and Herzegovina vs Switzerland] [METRIC: Victory] [THRESHOLD: Bosnia and Herzegovina Win] [SOURCE: FIFA Official] [TIME: 2026-06-13 20:00 GMT] ¿Ganará Bosnia and Herzegovina su partido contra Switzerland?"
+  },
+  {
+    "matchNumber": 11,
+    "teamA": "Bosnia and Herzegovina",
+    "teamB": "Canada",
+    "group": "B",
+    "date": "2026-06-13",
+    "question": "[SUBJECT: Bosnia and Herzegovina vs Canada] [METRIC: Victory] [THRESHOLD: Bosnia and Herzegovina Win] [SOURCE: FIFA Official] [TIME: 2026-06-13 20:00 GMT] ¿Ganará Bosnia and Herzegovina su partido contra Canada?"
+  },
+  {
+    "matchNumber": 12,
+    "teamA": "Switzerland",
+    "teamB": "Qatar",
+    "group": "B",
+    "date": "2026-06-13",
+    "question": "[SUBJECT: Switzerland vs Qatar] [METRIC: Victory] [THRESHOLD: Switzerland Win] [SOURCE: FIFA Official] [TIME: 2026-06-13 20:00 GMT] ¿Ganará Switzerland su partido contra Qatar?"
+  },
+  {
+    "matchNumber": 13,
+    "teamA": "Brazil",
+    "teamB": "Morocco",
+    "group": "C",
+    "date": "2026-06-14",
+    "question": "[SUBJECT: Brazil vs Morocco] [METRIC: Victory] [THRESHOLD: Brazil Win] [SOURCE: FIFA Official] [TIME: 2026-06-14 20:00 GMT] ¿Ganará Brazil su partido contra Morocco?"
+  },
+  {
+    "matchNumber": 14,
+    "teamA": "Scotland",
+    "teamB": "Haiti",
+    "group": "C",
+    "date": "2026-06-14",
+    "question": "[SUBJECT: Scotland vs Haiti] [METRIC: Victory] [THRESHOLD: Scotland Win] [SOURCE: FIFA Official] [TIME: 2026-06-14 20:00 GMT] ¿Ganará Scotland su partido contra Haiti?"
+  },
+  {
+    "matchNumber": 15,
+    "teamA": "Brazil",
+    "teamB": "Scotland",
+    "group": "C",
+    "date": "2026-06-14",
+    "question": "[SUBJECT: Brazil vs Scotland] [METRIC: Victory] [THRESHOLD: Brazil Win] [SOURCE: FIFA Official] [TIME: 2026-06-14 20:00 GMT] ¿Ganará Brazil su partido contra Scotland?"
+  },
+  {
+    "matchNumber": 16,
+    "teamA": "Haiti",
+    "teamB": "Morocco",
+    "group": "C",
+    "date": "2026-06-14",
+    "question": "[SUBJECT: Haiti vs Morocco] [METRIC: Victory] [THRESHOLD: Haiti Win] [SOURCE: FIFA Official] [TIME: 2026-06-14 20:00 GMT] ¿Ganará Haiti su partido contra Morocco?"
+  },
+  {
+    "matchNumber": 17,
+    "teamA": "Haiti",
+    "teamB": "Brazil",
+    "group": "C",
+    "date": "2026-06-15",
+    "question": "[SUBJECT: Haiti vs Brazil] [METRIC: Victory] [THRESHOLD: Haiti Win] [SOURCE: FIFA Official] [TIME: 2026-06-15 20:00 GMT] ¿Ganará Haiti su partido contra Brazil?"
+  },
+  {
+    "matchNumber": 18,
+    "teamA": "Morocco",
+    "teamB": "Scotland",
+    "group": "C",
+    "date": "2026-06-15",
+    "question": "[SUBJECT: Morocco vs Scotland] [METRIC: Victory] [THRESHOLD: Morocco Win] [SOURCE: FIFA Official] [TIME: 2026-06-15 20:00 GMT] ¿Ganará Morocco su partido contra Scotland?"
+  },
+  {
+    "matchNumber": 19,
+    "teamA": "USA",
+    "teamB": "Australia",
+    "group": "D",
+    "date": "2026-06-15",
+    "question": "[SUBJECT: USA vs Australia] [METRIC: Victory] [THRESHOLD: USA Win] [SOURCE: FIFA Official] [TIME: 2026-06-15 20:00 GMT] ¿Ganará USA su partido contra Australia?"
+  },
+  {
+    "matchNumber": 20,
+    "teamA": "Paraguay",
+    "teamB": "Türkiye",
+    "group": "D",
+    "date": "2026-06-15",
+    "question": "[SUBJECT: Paraguay vs Türkiye] [METRIC: Victory] [THRESHOLD: Paraguay Win] [SOURCE: FIFA Official] [TIME: 2026-06-15 20:00 GMT] ¿Ganará Paraguay su partido contra Türkiye?"
+  },
+  {
+    "matchNumber": 21,
+    "teamA": "USA",
+    "teamB": "Paraguay",
+    "group": "D",
+    "date": "2026-06-16",
+    "question": "[SUBJECT: USA vs Paraguay] [METRIC: Victory] [THRESHOLD: USA Win] [SOURCE: FIFA Official] [TIME: 2026-06-16 20:00 GMT] ¿Ganará USA su partido contra Paraguay?"
+  },
+  {
+    "matchNumber": 22,
+    "teamA": "Türkiye",
+    "teamB": "Australia",
+    "group": "D",
+    "date": "2026-06-16",
+    "question": "[SUBJECT: Türkiye vs Australia] [METRIC: Victory] [THRESHOLD: Türkiye Win] [SOURCE: FIFA Official] [TIME: 2026-06-16 20:00 GMT] ¿Ganará Türkiye su partido contra Australia?"
+  },
+  {
+    "matchNumber": 23,
+    "teamA": "Türkiye",
+    "teamB": "USA",
+    "group": "D",
+    "date": "2026-06-16",
+    "question": "[SUBJECT: Türkiye vs USA] [METRIC: Victory] [THRESHOLD: Türkiye Win] [SOURCE: FIFA Official] [TIME: 2026-06-16 20:00 GMT] ¿Ganará Türkiye su partido contra USA?"
+  },
+  {
+    "matchNumber": 24,
+    "teamA": "Australia",
+    "teamB": "Paraguay",
+    "group": "D",
+    "date": "2026-06-16",
+    "question": "[SUBJECT: Australia vs Paraguay] [METRIC: Victory] [THRESHOLD: Australia Win] [SOURCE: FIFA Official] [TIME: 2026-06-16 20:00 GMT] ¿Ganará Australia su partido contra Paraguay?"
+  },
+  {
+    "matchNumber": 25,
+    "teamA": "Germany",
+    "teamB": "Ecuador",
+    "group": "E",
+    "date": "2026-06-17",
+    "question": "[SUBJECT: Germany vs Ecuador] [METRIC: Victory] [THRESHOLD: Germany Win] [SOURCE: FIFA Official] [TIME: 2026-06-17 20:00 GMT] ¿Ganará Germany su partido contra Ecuador?"
+  },
+  {
+    "matchNumber": 26,
+    "teamA": "Ivory Coast",
+    "teamB": "Curaçao",
+    "group": "E",
+    "date": "2026-06-17",
+    "question": "[SUBJECT: Ivory Coast vs Curaçao] [METRIC: Victory] [THRESHOLD: Ivory Coast Win] [SOURCE: FIFA Official] [TIME: 2026-06-17 20:00 GMT] ¿Ganará Ivory Coast su partido contra Curaçao?"
+  },
+  {
+    "matchNumber": 27,
+    "teamA": "Germany",
+    "teamB": "Ivory Coast",
+    "group": "E",
+    "date": "2026-06-17",
+    "question": "[SUBJECT: Germany vs Ivory Coast] [METRIC: Victory] [THRESHOLD: Germany Win] [SOURCE: FIFA Official] [TIME: 2026-06-17 20:00 GMT] ¿Ganará Germany su partido contra Ivory Coast?"
+  },
+  {
+    "matchNumber": 28,
+    "teamA": "Curaçao",
+    "teamB": "Ecuador",
+    "group": "E",
+    "date": "2026-06-17",
+    "question": "[SUBJECT: Curaçao vs Ecuador] [METRIC: Victory] [THRESHOLD: Curaçao Win] [SOURCE: FIFA Official] [TIME: 2026-06-17 20:00 GMT] ¿Ganará Curaçao su partido contra Ecuador?"
+  },
+  {
+    "matchNumber": 29,
+    "teamA": "Curaçao",
+    "teamB": "Germany",
+    "group": "E",
+    "date": "2026-06-18",
+    "question": "[SUBJECT: Curaçao vs Germany] [METRIC: Victory] [THRESHOLD: Curaçao Win] [SOURCE: FIFA Official] [TIME: 2026-06-18 20:00 GMT] ¿Ganará Curaçao su partido contra Germany?"
+  },
+  {
+    "matchNumber": 30,
+    "teamA": "Ecuador",
+    "teamB": "Ivory Coast",
+    "group": "E",
+    "date": "2026-06-18",
+    "question": "[SUBJECT: Ecuador vs Ivory Coast] [METRIC: Victory] [THRESHOLD: Ecuador Win] [SOURCE: FIFA Official] [TIME: 2026-06-18 20:00 GMT] ¿Ganará Ecuador su partido contra Ivory Coast?"
+  },
+  {
+    "matchNumber": 31,
+    "teamA": "Netherlands",
+    "teamB": "Japan",
+    "group": "F",
+    "date": "2026-06-18",
+    "question": "[SUBJECT: Netherlands vs Japan] [METRIC: Victory] [THRESHOLD: Netherlands Win] [SOURCE: FIFA Official] [TIME: 2026-06-18 20:00 GMT] ¿Ganará Netherlands su partido contra Japan?"
+  },
+  {
+    "matchNumber": 32,
+    "teamA": "Tunisia",
+    "teamB": "Sweden",
+    "group": "F",
+    "date": "2026-06-18",
+    "question": "[SUBJECT: Tunisia vs Sweden] [METRIC: Victory] [THRESHOLD: Tunisia Win] [SOURCE: FIFA Official] [TIME: 2026-06-18 20:00 GMT] ¿Ganará Tunisia su partido contra Sweden?"
+  },
+  {
+    "matchNumber": 33,
+    "teamA": "Netherlands",
+    "teamB": "Tunisia",
+    "group": "F",
+    "date": "2026-06-19",
+    "question": "[SUBJECT: Netherlands vs Tunisia] [METRIC: Victory] [THRESHOLD: Netherlands Win] [SOURCE: FIFA Official] [TIME: 2026-06-19 20:00 GMT] ¿Ganará Netherlands su partido contra Tunisia?"
+  },
+  {
+    "matchNumber": 34,
+    "teamA": "Sweden",
+    "teamB": "Japan",
+    "group": "F",
+    "date": "2026-06-19",
+    "question": "[SUBJECT: Sweden vs Japan] [METRIC: Victory] [THRESHOLD: Sweden Win] [SOURCE: FIFA Official] [TIME: 2026-06-19 20:00 GMT] ¿Ganará Sweden su partido contra Japan?"
+  },
+  {
+    "matchNumber": 35,
+    "teamA": "Sweden",
+    "teamB": "Netherlands",
+    "group": "F",
+    "date": "2026-06-19",
+    "question": "[SUBJECT: Sweden vs Netherlands] [METRIC: Victory] [THRESHOLD: Sweden Win] [SOURCE: FIFA Official] [TIME: 2026-06-19 20:00 GMT] ¿Ganará Sweden su partido contra Netherlands?"
+  },
+  {
+    "matchNumber": 36,
+    "teamA": "Japan",
+    "teamB": "Tunisia",
+    "group": "F",
+    "date": "2026-06-19",
+    "question": "[SUBJECT: Japan vs Tunisia] [METRIC: Victory] [THRESHOLD: Japan Win] [SOURCE: FIFA Official] [TIME: 2026-06-19 20:00 GMT] ¿Ganará Japan su partido contra Tunisia?"
+  },
+  {
+    "matchNumber": 37,
+    "teamA": "Belgium",
+    "teamB": "Iran",
+    "group": "G",
+    "date": "2026-06-20",
+    "question": "[SUBJECT: Belgium vs Iran] [METRIC: Victory] [THRESHOLD: Belgium Win] [SOURCE: FIFA Official] [TIME: 2026-06-20 20:00 GMT] ¿Ganará Belgium su partido contra Iran?"
+  },
+  {
+    "matchNumber": 38,
+    "teamA": "Egypt",
+    "teamB": "New Zealand",
+    "group": "G",
+    "date": "2026-06-20",
+    "question": "[SUBJECT: Egypt vs New Zealand] [METRIC: Victory] [THRESHOLD: Egypt Win] [SOURCE: FIFA Official] [TIME: 2026-06-20 20:00 GMT] ¿Ganará Egypt su partido contra New Zealand?"
+  },
+  {
+    "matchNumber": 39,
+    "teamA": "Belgium",
+    "teamB": "Egypt",
+    "group": "G",
+    "date": "2026-06-20",
+    "question": "[SUBJECT: Belgium vs Egypt] [METRIC: Victory] [THRESHOLD: Belgium Win] [SOURCE: FIFA Official] [TIME: 2026-06-20 20:00 GMT] ¿Ganará Belgium su partido contra Egypt?"
+  },
+  {
+    "matchNumber": 40,
+    "teamA": "New Zealand",
+    "teamB": "Iran",
+    "group": "G",
+    "date": "2026-06-20",
+    "question": "[SUBJECT: New Zealand vs Iran] [METRIC: Victory] [THRESHOLD: New Zealand Win] [SOURCE: FIFA Official] [TIME: 2026-06-20 20:00 GMT] ¿Ganará New Zealand su partido contra Iran?"
+  },
+  {
+    "matchNumber": 41,
+    "teamA": "New Zealand",
+    "teamB": "Belgium",
+    "group": "G",
+    "date": "2026-06-21",
+    "question": "[SUBJECT: New Zealand vs Belgium] [METRIC: Victory] [THRESHOLD: New Zealand Win] [SOURCE: FIFA Official] [TIME: 2026-06-21 20:00 GMT] ¿Ganará New Zealand su partido contra Belgium?"
+  },
+  {
+    "matchNumber": 42,
+    "teamA": "Iran",
+    "teamB": "Egypt",
+    "group": "G",
+    "date": "2026-06-21",
+    "question": "[SUBJECT: Iran vs Egypt] [METRIC: Victory] [THRESHOLD: Iran Win] [SOURCE: FIFA Official] [TIME: 2026-06-21 20:00 GMT] ¿Ganará Iran su partido contra Egypt?"
+  },
+  {
+    "matchNumber": 43,
+    "teamA": "Spain",
+    "teamB": "Uruguay",
+    "group": "H",
+    "date": "2026-06-21",
+    "question": "[SUBJECT: Spain vs Uruguay] [METRIC: Victory] [THRESHOLD: Spain Win] [SOURCE: FIFA Official] [TIME: 2026-06-21 20:00 GMT] ¿Ganará Spain su partido contra Uruguay?"
+  },
+  {
+    "matchNumber": 44,
+    "teamA": "Saudi Arabia",
+    "teamB": "Cabo Verde",
+    "group": "H",
+    "date": "2026-06-21",
+    "question": "[SUBJECT: Saudi Arabia vs Cabo Verde] [METRIC: Victory] [THRESHOLD: Saudi Arabia Win] [SOURCE: FIFA Official] [TIME: 2026-06-21 20:00 GMT] ¿Ganará Saudi Arabia su partido contra Cabo Verde?"
+  },
+  {
+    "matchNumber": 45,
+    "teamA": "Spain",
+    "teamB": "Saudi Arabia",
+    "group": "H",
+    "date": "2026-06-22",
+    "question": "[SUBJECT: Spain vs Saudi Arabia] [METRIC: Victory] [THRESHOLD: Spain Win] [SOURCE: FIFA Official] [TIME: 2026-06-22 20:00 GMT] ¿Ganará Spain su partido contra Saudi Arabia?"
+  },
+  {
+    "matchNumber": 46,
+    "teamA": "Cabo Verde",
+    "teamB": "Uruguay",
+    "group": "H",
+    "date": "2026-06-22",
+    "question": "[SUBJECT: Cabo Verde vs Uruguay] [METRIC: Victory] [THRESHOLD: Cabo Verde Win] [SOURCE: FIFA Official] [TIME: 2026-06-22 20:00 GMT] ¿Ganará Cabo Verde su partido contra Uruguay?"
+  },
+  {
+    "matchNumber": 47,
+    "teamA": "Cabo Verde",
+    "teamB": "Spain",
+    "group": "H",
+    "date": "2026-06-22",
+    "question": "[SUBJECT: Cabo Verde vs Spain] [METRIC: Victory] [THRESHOLD: Cabo Verde Win] [SOURCE: FIFA Official] [TIME: 2026-06-22 20:00 GMT] ¿Ganará Cabo Verde su partido contra Spain?"
+  },
+  {
+    "matchNumber": 48,
+    "teamA": "Uruguay",
+    "teamB": "Saudi Arabia",
+    "group": "H",
+    "date": "2026-06-22",
+    "question": "[SUBJECT: Uruguay vs Saudi Arabia] [METRIC: Victory] [THRESHOLD: Uruguay Win] [SOURCE: FIFA Official] [TIME: 2026-06-22 20:00 GMT] ¿Ganará Uruguay su partido contra Saudi Arabia?"
+  },
+  {
+    "matchNumber": 49,
+    "teamA": "France",
+    "teamB": "Senegal",
+    "group": "I",
+    "date": "2026-06-23",
+    "question": "[SUBJECT: France vs Senegal] [METRIC: Victory] [THRESHOLD: France Win] [SOURCE: FIFA Official] [TIME: 2026-06-23 20:00 GMT] ¿Ganará France su partido contra Senegal?"
+  },
+  {
+    "matchNumber": 50,
+    "teamA": "Norway",
+    "teamB": "Iraq",
+    "group": "I",
+    "date": "2026-06-23",
+    "question": "[SUBJECT: Norway vs Iraq] [METRIC: Victory] [THRESHOLD: Norway Win] [SOURCE: FIFA Official] [TIME: 2026-06-23 20:00 GMT] ¿Ganará Norway su partido contra Iraq?"
+  },
+  {
+    "matchNumber": 51,
+    "teamA": "France",
+    "teamB": "Norway",
+    "group": "I",
+    "date": "2026-06-23",
+    "question": "[SUBJECT: France vs Norway] [METRIC: Victory] [THRESHOLD: France Win] [SOURCE: FIFA Official] [TIME: 2026-06-23 20:00 GMT] ¿Ganará France su partido contra Norway?"
+  },
+  {
+    "matchNumber": 52,
+    "teamA": "Iraq",
+    "teamB": "Senegal",
+    "group": "I",
+    "date": "2026-06-23",
+    "question": "[SUBJECT: Iraq vs Senegal] [METRIC: Victory] [THRESHOLD: Iraq Win] [SOURCE: FIFA Official] [TIME: 2026-06-23 20:00 GMT] ¿Ganará Iraq su partido contra Senegal?"
+  },
+  {
+    "matchNumber": 53,
+    "teamA": "Iraq",
+    "teamB": "France",
+    "group": "I",
+    "date": "2026-06-24",
+    "question": "[SUBJECT: Iraq vs France] [METRIC: Victory] [THRESHOLD: Iraq Win] [SOURCE: FIFA Official] [TIME: 2026-06-24 20:00 GMT] ¿Ganará Iraq su partido contra France?"
+  },
+  {
+    "matchNumber": 54,
+    "teamA": "Senegal",
+    "teamB": "Norway",
+    "group": "I",
+    "date": "2026-06-24",
+    "question": "[SUBJECT: Senegal vs Norway] [METRIC: Victory] [THRESHOLD: Senegal Win] [SOURCE: FIFA Official] [TIME: 2026-06-24 20:00 GMT] ¿Ganará Senegal su partido contra Norway?"
+  },
+  {
+    "matchNumber": 55,
+    "teamA": "Argentina",
+    "teamB": "Austria",
+    "group": "J",
+    "date": "2026-06-24",
+    "question": "[SUBJECT: Argentina vs Austria] [METRIC: Victory] [THRESHOLD: Argentina Win] [SOURCE: FIFA Official] [TIME: 2026-06-24 20:00 GMT] ¿Ganará Argentina su partido contra Austria?"
+  },
+  {
+    "matchNumber": 56,
+    "teamA": "Algeria",
+    "teamB": "Jordan",
+    "group": "J",
+    "date": "2026-06-24",
+    "question": "[SUBJECT: Algeria vs Jordan] [METRIC: Victory] [THRESHOLD: Algeria Win] [SOURCE: FIFA Official] [TIME: 2026-06-24 20:00 GMT] ¿Ganará Algeria su partido contra Jordan?"
+  },
+  {
+    "matchNumber": 57,
+    "teamA": "Argentina",
+    "teamB": "Algeria",
+    "group": "J",
+    "date": "2026-06-25",
+    "question": "[SUBJECT: Argentina vs Algeria] [METRIC: Victory] [THRESHOLD: Argentina Win] [SOURCE: FIFA Official] [TIME: 2026-06-25 20:00 GMT] ¿Ganará Argentina su partido contra Algeria?"
+  },
+  {
+    "matchNumber": 58,
+    "teamA": "Jordan",
+    "teamB": "Austria",
+    "group": "J",
+    "date": "2026-06-25",
+    "question": "[SUBJECT: Jordan vs Austria] [METRIC: Victory] [THRESHOLD: Jordan Win] [SOURCE: FIFA Official] [TIME: 2026-06-25 20:00 GMT] ¿Ganará Jordan su partido contra Austria?"
+  },
+  {
+    "matchNumber": 59,
+    "teamA": "Jordan",
+    "teamB": "Argentina",
+    "group": "J",
+    "date": "2026-06-25",
+    "question": "[SUBJECT: Jordan vs Argentina] [METRIC: Victory] [THRESHOLD: Jordan Win] [SOURCE: FIFA Official] [TIME: 2026-06-25 20:00 GMT] ¿Ganará Jordan su partido contra Argentina?"
+  },
+  {
+    "matchNumber": 60,
+    "teamA": "Austria",
+    "teamB": "Algeria",
+    "group": "J",
+    "date": "2026-06-25",
+    "question": "[SUBJECT: Austria vs Algeria] [METRIC: Victory] [THRESHOLD: Austria Win] [SOURCE: FIFA Official] [TIME: 2026-06-25 20:00 GMT] ¿Ganará Austria su partido contra Algeria?"
+  },
+  {
+    "matchNumber": 61,
+    "teamA": "Portugal",
+    "teamB": "Colombia",
+    "group": "K",
+    "date": "2026-06-26",
+    "question": "[SUBJECT: Portugal vs Colombia] [METRIC: Victory] [THRESHOLD: Portugal Win] [SOURCE: FIFA Official] [TIME: 2026-06-26 20:00 GMT] ¿Ganará Portugal su partido contra Colombia?"
+  },
+  {
+    "matchNumber": 62,
+    "teamA": "Uzbekistan",
+    "teamB": "DR Congo",
+    "group": "K",
+    "date": "2026-06-26",
+    "question": "[SUBJECT: Uzbekistan vs DR Congo] [METRIC: Victory] [THRESHOLD: Uzbekistan Win] [SOURCE: FIFA Official] [TIME: 2026-06-26 20:00 GMT] ¿Ganará Uzbekistan su partido contra DR Congo?"
+  },
+  {
+    "matchNumber": 63,
+    "teamA": "Portugal",
+    "teamB": "Uzbekistan",
+    "group": "K",
+    "date": "2026-06-26",
+    "question": "[SUBJECT: Portugal vs Uzbekistan] [METRIC: Victory] [THRESHOLD: Portugal Win] [SOURCE: FIFA Official] [TIME: 2026-06-26 20:00 GMT] ¿Ganará Portugal su partido contra Uzbekistan?"
+  },
+  {
+    "matchNumber": 64,
+    "teamA": "DR Congo",
+    "teamB": "Colombia",
+    "group": "K",
+    "date": "2026-06-26",
+    "question": "[SUBJECT: DR Congo vs Colombia] [METRIC: Victory] [THRESHOLD: DR Congo Win] [SOURCE: FIFA Official] [TIME: 2026-06-26 20:00 GMT] ¿Ganará DR Congo su partido contra Colombia?"
+  },
+  {
+    "matchNumber": 65,
+    "teamA": "DR Congo",
+    "teamB": "Portugal",
+    "group": "K",
+    "date": "2026-06-27",
+    "question": "[SUBJECT: DR Congo vs Portugal] [METRIC: Victory] [THRESHOLD: DR Congo Win] [SOURCE: FIFA Official] [TIME: 2026-06-27 20:00 GMT] ¿Ganará DR Congo su partido contra Portugal?"
+  },
+  {
+    "matchNumber": 66,
+    "teamA": "Colombia",
+    "teamB": "Uzbekistan",
+    "group": "K",
+    "date": "2026-06-27",
+    "question": "[SUBJECT: Colombia vs Uzbekistan] [METRIC: Victory] [THRESHOLD: Colombia Win] [SOURCE: FIFA Official] [TIME: 2026-06-27 20:00 GMT] ¿Ganará Colombia su partido contra Uzbekistan?"
+  },
+  {
+    "matchNumber": 67,
+    "teamA": "England",
+    "teamB": "Croatia",
+    "group": "L",
+    "date": "2026-06-27",
+    "question": "[SUBJECT: England vs Croatia] [METRIC: Victory] [THRESHOLD: England Win] [SOURCE: FIFA Official] [TIME: 2026-06-27 20:00 GMT] ¿Ganará England su partido contra Croatia?"
+  },
+  {
+    "matchNumber": 68,
+    "teamA": "Panama",
+    "teamB": "Ghana",
+    "group": "L",
+    "date": "2026-06-27",
+    "question": "[SUBJECT: Panama vs Ghana] [METRIC: Victory] [THRESHOLD: Panama Win] [SOURCE: FIFA Official] [TIME: 2026-06-27 20:00 GMT] ¿Ganará Panama su partido contra Ghana?"
+  },
+  {
+    "matchNumber": 69,
+    "teamA": "England",
+    "teamB": "Panama",
+    "group": "L",
+    "date": "2026-06-28",
+    "question": "[SUBJECT: England vs Panama] [METRIC: Victory] [THRESHOLD: England Win] [SOURCE: FIFA Official] [TIME: 2026-06-28 20:00 GMT] ¿Ganará England su partido contra Panama?"
+  },
+  {
+    "matchNumber": 70,
+    "teamA": "Ghana",
+    "teamB": "Croatia",
+    "group": "L",
+    "date": "2026-06-28",
+    "question": "[SUBJECT: Ghana vs Croatia] [METRIC: Victory] [THRESHOLD: Ghana Win] [SOURCE: FIFA Official] [TIME: 2026-06-28 20:00 GMT] ¿Ganará Ghana su partido contra Croatia?"
+  },
+  {
+    "matchNumber": 71,
+    "teamA": "Ghana",
+    "teamB": "England",
+    "group": "L",
+    "date": "2026-06-28",
+    "question": "[SUBJECT: Ghana vs England] [METRIC: Victory] [THRESHOLD: Ghana Win] [SOURCE: FIFA Official] [TIME: 2026-06-28 20:00 GMT] ¿Ganará Ghana su partido contra England?"
+  },
+  {
+    "matchNumber": 72,
+    "teamA": "Croatia",
+    "teamB": "Panama",
+    "group": "L",
+    "date": "2026-06-28",
+    "question": "[SUBJECT: Croatia vs Panama] [METRIC: Victory] [THRESHOLD: Croatia Win] [SOURCE: FIFA Official] [TIME: 2026-06-28 20:00 GMT] ¿Ganará Croatia su partido contra Panama?"
+  },
+  {
+    "matchNumber": 73,
+    "teamA": "Runner-up Group A",
+    "teamB": "Runner-up Group B",
+    "group": "Round of 32",
+    "date": "2026-06-28",
+    "question": "[SUBJECT: Runner-up Group A vs Runner-up Group B] [METRIC: Victory] [THRESHOLD: Runner-up Group A Win] [SOURCE: FIFA Official] [TIME: 2026-06-28 20:00 GMT] ¿Ganará Runner-up Group A su partido contra Runner-up Group B?"
+  },
+  {
+    "matchNumber": 74,
+    "teamA": "Winner Group A",
+    "teamB": "3rd Group C/D/E/F",
+    "group": "Round of 32",
+    "date": "2026-06-28",
+    "question": "[SUBJECT: Winner Group A vs 3rd Group C/D/E/F] [METRIC: Victory] [THRESHOLD: Winner Group A Win] [SOURCE: FIFA Official] [TIME: 2026-06-28 20:00 GMT] ¿Ganará Winner Group A su partido contra 3rd Group C/D/E/F?"
+  },
+  {
+    "matchNumber": 75,
+    "teamA": "Winner Group B",
+    "teamB": "3rd Group A/C/D/F",
+    "group": "Round of 32",
+    "date": "2026-06-28",
+    "question": "[SUBJECT: Winner Group B vs 3rd Group A/C/D/F] [METRIC: Victory] [THRESHOLD: Winner Group B Win] [SOURCE: FIFA Official] [TIME: 2026-06-28 20:00 GMT] ¿Ganará Winner Group B su partido contra 3rd Group A/C/D/F?"
+  },
+  {
+    "matchNumber": 76,
+    "teamA": "Winner Group C",
+    "teamB": "Runner-up Group C",
+    "group": "Round of 32",
+    "date": "2026-06-29",
+    "question": "[SUBJECT: Winner Group C vs Runner-up Group C] [METRIC: Victory] [THRESHOLD: Winner Group C Win] [SOURCE: FIFA Official] [TIME: 2026-06-29 20:00 GMT] ¿Ganará Winner Group C su partido contra Runner-up Group C?"
+  },
+  {
+    "matchNumber": 77,
+    "teamA": "Winner Group D",
+    "teamB": "3rd Group A/B/E/F",
+    "group": "Round of 32",
+    "date": "2026-06-29",
+    "question": "[SUBJECT: Winner Group D vs 3rd Group A/B/E/F] [METRIC: Victory] [THRESHOLD: Winner Group D Win] [SOURCE: FIFA Official] [TIME: 2026-06-29 20:00 GMT] ¿Ganará Winner Group D su partido contra 3rd Group A/B/E/F?"
+  },
+  {
+    "matchNumber": 78,
+    "teamA": "Winner Group E",
+    "teamB": "Runner-up Group F",
+    "group": "Round of 32",
+    "date": "2026-06-29",
+    "question": "[SUBJECT: Winner Group E vs Runner-up Group F] [METRIC: Victory] [THRESHOLD: Winner Group E Win] [SOURCE: FIFA Official] [TIME: 2026-06-29 20:00 GMT] ¿Ganará Winner Group E su partido contra Runner-up Group F?"
+  },
+  {
+    "matchNumber": 79,
+    "teamA": "Winner Group F",
+    "teamB": "3rd Group A/B/C/D",
+    "group": "Round of 32",
+    "date": "2026-06-30",
+    "question": "[SUBJECT: Winner Group F vs 3rd Group A/B/C/D] [METRIC: Victory] [THRESHOLD: Winner Group F Win] [SOURCE: FIFA Official] [TIME: 2026-06-30 20:00 GMT] ¿Ganará Winner Group F su partido contra 3rd Group A/B/C/D?"
+  },
+  {
+    "matchNumber": 80,
+    "teamA": "Winner Group G",
+    "teamB": "Runner-up Group H",
+    "group": "Round of 32",
+    "date": "2026-06-30",
+    "question": "[SUBJECT: Winner Group G vs Runner-up Group H] [METRIC: Victory] [THRESHOLD: Winner Group G Win] [SOURCE: FIFA Official] [TIME: 2026-06-30 20:00 GMT] ¿Ganará Winner Group G su partido contra Runner-up Group H?"
+  },
+  {
+    "matchNumber": 81,
+    "teamA": "Winner Group H",
+    "teamB": "Runner-up Group G",
+    "group": "Round of 32",
+    "date": "2026-06-30",
+    "question": "[SUBJECT: Winner Group H vs Runner-up Group G] [METRIC: Victory] [THRESHOLD: Winner Group H Win] [SOURCE: FIFA Official] [TIME: 2026-06-30 20:00 GMT] ¿Ganará Winner Group H su partido contra Runner-up Group G?"
+  },
+  {
+    "matchNumber": 82,
+    "teamA": "Winner Group I",
+    "teamB": "3rd Group G/H/J/K",
+    "group": "Round of 32",
+    "date": "2026-07-01",
+    "question": "[SUBJECT: Winner Group I vs 3rd Group G/H/J/K] [METRIC: Victory] [THRESHOLD: Winner Group I Win] [SOURCE: FIFA Official] [TIME: 2026-07-01 20:00 GMT] ¿Ganará Winner Group I su partido contra 3rd Group G/H/J/K?"
+  },
+  {
+    "matchNumber": 83,
+    "teamA": "Winner Group J",
+    "teamB": "Runner-up Group I",
+    "group": "Round of 32",
+    "date": "2026-07-01",
+    "question": "[SUBJECT: Winner Group J vs Runner-up Group I] [METRIC: Victory] [THRESHOLD: Winner Group J Win] [SOURCE: FIFA Official] [TIME: 2026-07-01 20:00 GMT] ¿Ganará Winner Group J su partido contra Runner-up Group I?"
+  },
+  {
+    "matchNumber": 84,
+    "teamA": "Winner Group K",
+    "teamB": "Runner-up Group L",
+    "group": "Round of 32",
+    "date": "2026-07-01",
+    "question": "[SUBJECT: Winner Group K vs Runner-up Group L] [METRIC: Victory] [THRESHOLD: Winner Group K Win] [SOURCE: FIFA Official] [TIME: 2026-07-01 20:00 GMT] ¿Ganará Winner Group K su partido contra Runner-up Group L?"
+  },
+  {
+    "matchNumber": 85,
+    "teamA": "Winner Group L",
+    "teamB": "3rd Group I/J/K/L",
+    "group": "Round of 32",
+    "date": "2026-07-02",
+    "question": "[SUBJECT: Winner Group L vs 3rd Group I/J/K/L] [METRIC: Victory] [THRESHOLD: Winner Group L Win] [SOURCE: FIFA Official] [TIME: 2026-07-02 20:00 GMT] ¿Ganará Winner Group L su partido contra 3rd Group I/J/K/L?"
+  },
+  {
+    "matchNumber": 86,
+    "teamA": "Runner-up Group D",
+    "teamB": "Runner-up Group E",
+    "group": "Round of 32",
+    "date": "2026-07-02",
+    "question": "[SUBJECT: Runner-up Group D vs Runner-up Group E] [METRIC: Victory] [THRESHOLD: Runner-up Group D Win] [SOURCE: FIFA Official] [TIME: 2026-07-02 20:00 GMT] ¿Ganará Runner-up Group D su partido contra Runner-up Group E?"
+  },
+  {
+    "matchNumber": 87,
+    "teamA": "Runner-up Group J",
+    "teamB": "Runner-up Group K",
+    "group": "Round of 32",
+    "date": "2026-07-02",
+    "question": "[SUBJECT: Runner-up Group J vs Runner-up Group K] [METRIC: Victory] [THRESHOLD: Runner-up Group J Win] [SOURCE: FIFA Official] [TIME: 2026-07-02 20:00 GMT] ¿Ganará Runner-up Group J su partido contra Runner-up Group K?"
+  },
+  {
+    "matchNumber": 88,
+    "teamA": "3rd Group B/E/F/G",
+    "teamB": "3rd Group H/I/J/L",
+    "group": "Round of 32",
+    "date": "2026-07-03",
+    "question": "[SUBJECT: 3rd Group B/E/F/G vs 3rd Group H/I/J/L] [METRIC: Victory] [THRESHOLD: 3rd Group B/E/F/G Win] [SOURCE: FIFA Official] [TIME: 2026-07-03 20:00 GMT] ¿Ganará 3rd Group B/E/F/G su partido contra 3rd Group H/I/J/L?"
+  },
+  {
+    "matchNumber": 89,
+    "teamA": "Winner Match 73",
+    "teamB": "Winner Match 74",
+    "group": "Round of 16",
+    "date": "2026-07-04",
+    "question": "[SUBJECT: Winner Match 73 vs Winner Match 74] [METRIC: Victory] [THRESHOLD: Winner Match 73 Win] [SOURCE: FIFA Official] [TIME: 2026-07-04 20:00 GMT] ¿Ganará Winner Match 73 su partido contra Winner Match 74?"
+  },
+  {
+    "matchNumber": 90,
+    "teamA": "Winner Match 75",
+    "teamB": "Winner Match 76",
+    "group": "Round of 16",
+    "date": "2026-07-04",
+    "question": "[SUBJECT: Winner Match 75 vs Winner Match 76] [METRIC: Victory] [THRESHOLD: Winner Match 75 Win] [SOURCE: FIFA Official] [TIME: 2026-07-04 20:00 GMT] ¿Ganará Winner Match 75 su partido contra Winner Match 76?"
+  },
+  {
+    "matchNumber": 91,
+    "teamA": "Winner Match 77",
+    "teamB": "Winner Match 78",
+    "group": "Round of 16",
+    "date": "2026-07-05",
+    "question": "[SUBJECT: Winner Match 77 vs Winner Match 78] [METRIC: Victory] [THRESHOLD: Winner Match 77 Win] [SOURCE: FIFA Official] [TIME: 2026-07-05 20:00 GMT] ¿Ganará Winner Match 77 su partido contra Winner Match 78?"
+  },
+  {
+    "matchNumber": 92,
+    "teamA": "Winner Match 79",
+    "teamB": "Winner Match 80",
+    "group": "Round of 16",
+    "date": "2026-07-05",
+    "question": "[SUBJECT: Winner Match 79 vs Winner Match 80] [METRIC: Victory] [THRESHOLD: Winner Match 79 Win] [SOURCE: FIFA Official] [TIME: 2026-07-05 20:00 GMT] ¿Ganará Winner Match 79 su partido contra Winner Match 80?"
+  },
+  {
+    "matchNumber": 93,
+    "teamA": "Winner Match 81",
+    "teamB": "Winner Match 82",
+    "group": "Round of 16",
+    "date": "2026-07-06",
+    "question": "[SUBJECT: Winner Match 81 vs Winner Match 82] [METRIC: Victory] [THRESHOLD: Winner Match 81 Win] [SOURCE: FIFA Official] [TIME: 2026-07-06 20:00 GMT] ¿Ganará Winner Match 81 su partido contra Winner Match 82?"
+  },
+  {
+    "matchNumber": 94,
+    "teamA": "Winner Match 83",
+    "teamB": "Winner Match 84",
+    "group": "Round of 16",
+    "date": "2026-07-06",
+    "question": "[SUBJECT: Winner Match 83 vs Winner Match 84] [METRIC: Victory] [THRESHOLD: Winner Match 83 Win] [SOURCE: FIFA Official] [TIME: 2026-07-06 20:00 GMT] ¿Ganará Winner Match 83 su partido contra Winner Match 84?"
+  },
+  {
+    "matchNumber": 95,
+    "teamA": "Winner Match 85",
+    "teamB": "Winner Match 86",
+    "group": "Round of 16",
+    "date": "2026-07-07",
+    "question": "[SUBJECT: Winner Match 85 vs Winner Match 86] [METRIC: Victory] [THRESHOLD: Winner Match 85 Win] [SOURCE: FIFA Official] [TIME: 2026-07-07 20:00 GMT] ¿Ganará Winner Match 85 su partido contra Winner Match 86?"
+  },
+  {
+    "matchNumber": 96,
+    "teamA": "Winner Match 87",
+    "teamB": "Winner Match 88",
+    "group": "Round of 16",
+    "date": "2026-07-07",
+    "question": "[SUBJECT: Winner Match 87 vs Winner Match 88] [METRIC: Victory] [THRESHOLD: Winner Match 87 Win] [SOURCE: FIFA Official] [TIME: 2026-07-07 20:00 GMT] ¿Ganará Winner Match 87 su partido contra Winner Match 88?"
+  },
+  {
+    "matchNumber": 97,
+    "teamA": "Winner Match 89",
+    "teamB": "Winner Match 90",
+    "group": "Quarter-final",
+    "date": "2026-07-09",
+    "question": "[SUBJECT: Winner Match 89 vs Winner Match 90] [METRIC: Victory] [THRESHOLD: Winner Match 89 Win] [SOURCE: FIFA Official] [TIME: 2026-07-09 20:00 GMT] ¿Ganará Winner Match 89 su partido contra Winner Match 90?"
+  },
+  {
+    "matchNumber": 98,
+    "teamA": "Winner Match 91",
+    "teamB": "Winner Match 92",
+    "group": "Quarter-final",
+    "date": "2026-07-09",
+    "question": "[SUBJECT: Winner Match 91 vs Winner Match 92] [METRIC: Victory] [THRESHOLD: Winner Match 91 Win] [SOURCE: FIFA Official] [TIME: 2026-07-09 20:00 GMT] ¿Ganará Winner Match 91 su partido contra Winner Match 92?"
+  },
+  {
+    "matchNumber": 99,
+    "teamA": "Winner Match 93",
+    "teamB": "Winner Match 94",
+    "group": "Quarter-final",
+    "date": "2026-07-10",
+    "question": "[SUBJECT: Winner Match 93 vs Winner Match 94] [METRIC: Victory] [THRESHOLD: Winner Match 93 Win] [SOURCE: FIFA Official] [TIME: 2026-07-10 20:00 GMT] ¿Ganará Winner Match 93 su partido contra Winner Match 94?"
+  },
+  {
+    "matchNumber": 100,
+    "teamA": "Winner Match 95",
+    "teamB": "Winner Match 96",
+    "group": "Quarter-final",
+    "date": "2026-07-10",
+    "question": "[SUBJECT: Winner Match 95 vs Winner Match 96] [METRIC: Victory] [THRESHOLD: Winner Match 95 Win] [SOURCE: FIFA Official] [TIME: 2026-07-10 20:00 GMT] ¿Ganará Winner Match 95 su partido contra Winner Match 96?"
+  },
+  {
+    "matchNumber": 101,
+    "teamA": "Winner Match 97",
+    "teamB": "Winner Match 98",
+    "group": "Semi-final",
+    "date": "2026-07-14",
+    "question": "[SUBJECT: Winner Match 97 vs Winner Match 98] [METRIC: Victory] [THRESHOLD: Winner Match 97 Win] [SOURCE: FIFA Official] [TIME: 2026-07-14 20:00 GMT] ¿Ganará Winner Match 97 su partido contra Winner Match 98?"
+  },
+  {
+    "matchNumber": 102,
+    "teamA": "Winner Match 99",
+    "teamB": "Winner Match 100",
+    "group": "Semi-final",
+    "date": "2026-07-15",
+    "question": "[SUBJECT: Winner Match 99 vs Winner Match 100] [METRIC: Victory] [THRESHOLD: Winner Match 99 Win] [SOURCE: FIFA Official] [TIME: 2026-07-15 20:00 GMT] ¿Ganará Winner Match 99 su partido contra Winner Match 100?"
+  },
+  {
+    "matchNumber": 103,
+    "teamA": "Loser Match 101",
+    "teamB": "Loser Match 102",
+    "group": "Third place",
+    "date": "2026-07-18",
+    "question": "[SUBJECT: Loser Match 101 vs Loser Match 102] [METRIC: Victory] [THRESHOLD: Loser Match 101 Win] [SOURCE: FIFA Official] [TIME: 2026-07-18 20:00 GMT] ¿Ganará Loser Match 101 su partido contra Loser Match 102?"
+  },
+  {
+    "matchNumber": 104,
+    "teamA": "Winner Match 101",
+    "teamB": "Winner Match 102",
+    "group": "Final",
+    "date": "2026-07-19",
+    "question": "[SUBJECT: Winner Match 101 vs Winner Match 102] [METRIC: Victory] [THRESHOLD: Winner Match 101 Win] [SOURCE: FIFA Official] [TIME: 2026-07-19 20:00 GMT] ¿Ganará Winner Match 101 su partido contra Winner Match 102?"
+  }
+]
