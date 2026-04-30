@@ -28,8 +28,19 @@ import { useRouter } from 'next/navigation';
 export default function AdminDashboard() {
   const account = useActiveAccount();
   const router = useRouter();
-  const [isAdmin, setIsAdmin] = useState<boolean | null>(null); // null = cargando
   
+  // Declarar estados primero para evitar ReferenceError
+  const [isAdmin, setIsAdmin] = useState<boolean | null>(null); // null = cargando
+  const [isLoading, setIsLoading] = useState(true);
+  const [markets, setMarkets] = useState<any[]>([]);
+  const [stats, setStats] = useState({
+    totalMarkets: 0,
+    activeMarkets: 0,
+    pendingModeration: 0,
+    totalVolume: 0,
+    disputedMarkets: 0
+  });
+
   // Verificación de Seguridad Dinámica
   useEffect(() => {
     async function verifyAdmin() {
@@ -55,16 +66,6 @@ export default function AdminDashboard() {
       verifyAdmin();
     }
   }, [account, isLoading, router]);
-
-  const [stats, setStats] = useState({
-    totalMarkets: 0,
-    activeMarkets: 0,
-    pendingModeration: 0,
-    totalVolume: 0,
-    disputedMarkets: 0
-  });
-  const [markets, setMarkets] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   const factoryContract = getContract({
     client,
@@ -138,30 +139,39 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-white pt-24 pb-12 px-4 md:px-8 font-sans transition-colors duration-300">
-      <div className="max-w-7xl mx-auto space-y-12">
+    <div className="min-h-screen bg-white text-zinc-900 pb-20 md:pb-8">
+      <main className="container mx-auto px-4 py-16">
         
-        {/* Header Consistente */}
-        <div className="flex items-center justify-between border-b border-zinc-100 pb-10">
-          <div>
-            <h1 className="text-4xl font-black text-zinc-900 tracking-tighter uppercase italic">Terminal_Admin</h1>
-            <p className="text-xs font-mono text-zinc-400 mt-2 uppercase tracking-[0.4em]">Protocol Control System v1.1</p>
+        {/* Hero Section - Matched with Home */}
+        <section className="mb-16 text-center md:text-left">
+          <div className="flex items-center gap-2 mb-4 justify-center md:justify-start">
+            <div className="h-[2px] w-8 bg-emerald-500" />
+            <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-emerald-600 font-bold">Protocol Terminal</span>
           </div>
-          <button 
-            onClick={fetchAdminData}
-            className="flex items-center gap-2 px-6 py-3 bg-zinc-50 border border-zinc-200 rounded-2xl text-[10px] font-bold text-zinc-600 hover:bg-white hover:text-emerald-600 transition-all shadow-sm hover:shadow-md active:scale-95"
-          >
-            <RefreshCcw className={cn("w-4 h-4", isLoading && "animate-spin")} />
-            SINCRONIZAR
-          </button>
-        </div>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+              <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight text-zinc-900 mb-4">
+                Administración <br />
+                <span className="text-emerald-600 italic">del Sistema</span>
+              </h2>
+              <p className="text-xs font-mono text-zinc-400 uppercase tracking-widest">Protocol Control System v1.1</p>
+            </div>
+            <button 
+              onClick={fetchAdminData}
+              className="flex items-center gap-2 px-8 py-4 bg-zinc-900 text-white rounded-2xl text-xs font-bold hover:bg-black transition-all shadow-xl active:scale-95"
+            >
+              <RefreshCcw className={cn("w-4 h-4", isLoading && "animate-spin")} />
+              SINCRONIZAR DATOS
+            </button>
+          </div>
+        </section>
 
-        {/* Stats Grid - Light & Emerald */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <AdminStatCard icon={BarChart3} label="VOLUMEN_TOTAL" value={`$${stats.totalVolume.toFixed(2)}`} />
-          <AdminStatCard icon={Zap} label="MERCADOS_ACTIVOS" value={stats.activeMarkets.toString()} />
-          <AdminStatCard icon={AlertTriangle} label="PENDIENTES_MOD" value={stats.pendingModeration.toString()} />
-          <AdminStatCard icon={ShieldAlert} label="EN_DISPUTA" value={stats.disputedMarkets.toString()} />
+        {/* Stats Grid - Standardized with Home style */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          <AdminStatCard icon={BarChart3} label="VOLUMEN TOTAL" value={`$${stats.totalVolume.toFixed(2)}`} color="text-emerald-600" />
+          <AdminStatCard icon={Zap} label="MERCADOS ACTIVOS" value={stats.activeMarkets.toString()} color="text-yellow-600" />
+          <AdminStatCard icon={AlertTriangle} label="PENDIENTES MOD" value={stats.pendingModeration.toString()} color="text-amber-600" />
+          <AdminStatCard icon={ShieldAlert} label="EN DISPUTA" value={stats.disputedMarkets.toString()} color="text-red-600" />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
@@ -273,7 +283,7 @@ export default function AdminDashboard() {
           </div>
 
         </div>
-      </div>
+      </main>
     </div>
   );
 }

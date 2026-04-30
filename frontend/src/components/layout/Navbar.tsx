@@ -12,6 +12,19 @@ import { baseSepolia } from 'thirdweb/chains';
 import { createWallet, inAppWallet } from 'thirdweb/wallets';
 import { supabase } from '@/lib/supabase';
 
+// Base Sepolia con RPC de Alchemy (hardcoded para evitar rate limits)
+const customBaseSepolia = {
+  ...baseSepolia,
+  rpc: "https://base-sepolia.g.alchemy.com/v2/nn0ydHbZ0QvA9S53B6CnX",
+};
+
+const USDC_BASE_SEPOLIA = {
+  address: "0x036CbD53842c5426634e7929541eC2318f3dCF7e" as `0x${string}`,
+  name: "USD Coin",
+  symbol: "USDC",
+  icon: "https://cryptologos.cc/logos/usd-coin-usdc-logo.png?v=040",
+};
+
 const CATEGORIES = [
   "Politics", "Sports", "Crypto", "Esports", "Geopolitics", "Tech", "Economy"
 ];
@@ -129,19 +142,12 @@ export default function Navbar({ userEmail }: { userEmail?: string }) {
 
           <ConnectButton 
             client={client} 
-            chain={baseSepolia}
+            chain={customBaseSepolia}
             theme="light"
-            supportedChains={[baseSepolia]}
+            supportedChains={[customBaseSepolia]}
             wallets={wallets}
             supportedTokens={{
-              [baseSepolia.id]: [
-                {
-                  address: "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
-                  name: "USD Coin",
-                  symbol: "USDC",
-                  icon: "https://cryptologos.cc/logos/usd-coin-usdc-logo.png?v=040",
-                },
-              ],
+              84532: [USDC_BASE_SEPOLIA],
             }}
             connectButton={{
               label: t.nav.connect,

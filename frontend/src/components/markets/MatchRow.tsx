@@ -1,0 +1,66 @@
+import React from 'react';
+
+interface MatchRowProps {
+  league: string;
+  time: string;
+  homeTeam: string;
+  awayTeam: string;
+  homeColor: string;
+  awayColor: string;
+  homePrice: string;
+  drawPrice: string;
+  awayPrice: string;
+}
+
+const MatchRow: React.FC<MatchRowProps> = ({
+  league,
+  time,
+  homeTeam,
+  awayTeam,
+  homeColor,
+  awayColor,
+  homePrice,
+  drawPrice,
+  awayPrice,
+}) => {
+  return (
+    <div className="bg-white rounded-[2rem] border border-zinc-200 p-6 mb-4 shadow-sm hover:shadow-md transition-all">
+      <div className="text-[10px] font-black tracking-widest text-zinc-400 mb-4 flex justify-between uppercase">
+        <span>{league}</span>
+        <span className="font-mono">{time}</span>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+        {/* Equipos */}
+        <div className="flex flex-col gap-3">
+          <div className="flex items-center gap-4">
+            <div className={`w-8 h-8 rounded-full ${homeColor} border-2 border-zinc-100 flex-shrink-0 shadow-inner`} />
+            <span className="font-black text-zinc-900 text-xl tracking-tight">{homeTeam}</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className={`w-8 h-8 rounded-full ${awayColor} border-2 border-zinc-100 flex-shrink-0 shadow-inner`} />
+            <span className="font-black text-zinc-900 text-xl tracking-tight">{awayTeam}</span>
+          </div>
+        </div>
+
+        {/* Botones 1X2 */}
+        <div className="flex gap-3 h-14">
+          <button className="flex-1 rounded-2xl bg-zinc-50 border border-zinc-100 text-zinc-900 font-bold flex flex-col items-center justify-center hover:bg-emerald-500 hover:text-white hover:border-emerald-600 transition-all group">
+            <span className="text-[10px] opacity-60 font-black mb-0.5">1</span>
+            <span className="font-mono">{homePrice}</span>
+          </button>
+          <button className="flex-1 rounded-2xl bg-zinc-50 border border-zinc-100 text-zinc-500 font-bold flex flex-col items-center justify-center hover:bg-zinc-200 transition-all">
+            <span className="text-[10px] opacity-60 font-black mb-0.5">X</span>
+            <span className="font-mono">{drawPrice}</span>
+          </button>
+          <button className="flex-1 rounded-2xl bg-zinc-50 border border-zinc-100 text-zinc-900 font-bold flex flex-col items-center justify-center hover:bg-red-500 hover:text-white hover:border-red-600 transition-all group">
+            <span className="text-[10px] opacity-60 font-black mb-0.5">2</span>
+            <span className="font-mono">{awayPrice}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MatchRow;

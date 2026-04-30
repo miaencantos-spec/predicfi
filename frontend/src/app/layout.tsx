@@ -32,7 +32,6 @@ export default function RootLayout({
       <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased font-sans transition-colors duration-300`}>
         <ThemeProvider
           attribute="class"
-          forcedTheme="light"
           defaultTheme="light"
           enableSystem={false}
           disableTransitionOnChange

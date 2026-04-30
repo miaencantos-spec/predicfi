@@ -17,6 +17,17 @@ export default function DashboardPage() {
   const { mutate: sendTransaction } = useSendTransaction();
   const [bets, setBets] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (!account?.address) return;
+    supabase
+      .from('profiles')
+      .select('is_admin')
+      .eq('wallet_address', account.address.toLowerCase())
+      .single()
+      .then(({ data }) => setIsAdmin(!!data?.is_admin));
+  }, [account?.address]);
 
   // Read USDC Balance
   const usdcContract = getContract({
@@ -93,30 +104,39 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-white text-zinc-900 pb-20 md:pb-8">
-      <main className="container mx-auto px-4 py-12">
-        <header className="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="h-[2px] w-8 bg-emerald-500" />
-              <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-emerald-600 font-bold">Terminal de Usuario</span>
-            </div>
-            <h1 className="text-5xl font-bold text-zinc-900 mb-2">
-              DASHBOARD
-            </h1>
-            <p className="text-zinc-400 font-mono text-xs uppercase tracking-wider">Wallet: {account?.address ? `${account.address.slice(0,6)}...${account.address.slice(-4)}` : 'No conectado'}</p>
+      <main className="container mx-auto px-4 py-16">
+        
+        {/* Hero Section - Matched with Home */}
+        <section className="mb-16 text-center md:text-left">
+          <div className="flex items-center gap-2 mb-4 justify-center md:justify-start">
+            <div className="h-[2px] w-8 bg-emerald-500" />
+            <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-emerald-600 font-bold">Terminal de Usuario</span>
           </div>
-          
-          <Link 
-            href="/create" 
-            className="group flex items-center gap-2 bg-zinc-900 text-white px-6 py-3 rounded-2xl hover:bg-black transition-all active:scale-95 shadow-lg shadow-zinc-200"
-          >
-            <span className="text-xs font-mono uppercase tracking-widest group-hover:text-white">Proponer Mercado</span>
-            <ArrowRight className="w-4 h-4 text-emerald-500 group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </header>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div>
+              <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight text-zinc-900 mb-4">
+                Mi Actividad <br />
+                <span className="text-emerald-600 italic">en PredicFi</span>
+              </h2>
+              <p className="text-xs font-mono text-zinc-400 uppercase tracking-widest leading-relaxed">
+                Wallet: <span className="text-zinc-900 font-bold">{account?.address ? `${account.address.slice(0,6)}...${account.address.slice(-4)}` : 'No conectado'}</span>
+              </p>
+            </div>
+            
+            {isAdmin && (
+              <Link 
+                href="/create" 
+                className="group flex items-center gap-3 bg-zinc-900 text-white px-8 py-4 rounded-2xl hover:bg-black transition-all active:scale-95 shadow-xl"
+              >
+                <span className="text-xs font-bold uppercase tracking-widest">Crear Mercado</span>
+                <ArrowRight className="w-4 h-4 text-emerald-500 group-hover:translate-x-1 transition-transform" />
+              </Link>
+            )}
+          </div>
+        </section>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        {/* Stats Grid - Standardized with Home style */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           <StatCard 
             icon={Wallet} 
             label="Balance USDC" 
@@ -132,16 +152,21 @@ export default function DashboardPage() {
           <StatCard 
             icon={Clock} 
             label="En Curso" 
-            value={bets.filter(b => b.markets.status === 'active').length.toString()} 
+            value={bets.filter(b => b.markets?.status === 'active').length.toString()} 
             color="text-orange-600" 
           />
         </div>
 
         {/* Bets List */}
-        <section className="space-y-6">
-          <div className="flex items-center justify-between px-2">
-            <h3 className="text-xs font-mono uppercase tracking-[0.2em] text-zinc-400">Historial de Operaciones</h3>
-            <div className="h-[1px] flex-1 mx-6 bg-zinc-100" />
+        <section className="space-y-8">
+          <div className="flex items-center justify-between mb-8 border-b border-zinc-100 pb-4">
+            <h3 className="text-2xl font-bold text-zinc-900 tracking-tight flex items-center gap-3">
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
+              </span>
+              Historial de Operaciones
+            </h3>
           </div>
           
           {isLoading ? (
@@ -151,8 +176,10 @@ export default function DashboardPage() {
           ) : (
             <div className="space-y-4">
               {bets.map((bet) => {
-                const isResolved = bet.markets.status === 'resolved' || bet.markets.status === 'verified';
-                const isWinner = isResolved && bet.is_yes === bet.markets.outcome;
+                const marketData = bet.markets || {};
+                const isResolved = marketData.status === 'resolved' || marketData.status === 'verified';
+                const isWinner = isResolved && bet.is_yes === marketData.outcome;
+                const displayQuestion = (bet.question || marketData.question || 'Cargando pregunta...').replace(/\[.*?\]\s*/g, '');
                 
                 return (
                   <div key={bet.id} className="bg-white p-8 rounded-[2rem] border border-zinc-200 flex flex-col md:flex-row md:items-center justify-between gap-6 group hover:border-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/5 transition-all">
@@ -176,7 +203,7 @@ export default function DashboardPage() {
                         </span>
                       </div>
                       <h4 className="text-lg font-bold text-zinc-900 mb-2 group-hover:text-emerald-600 transition-colors">
-                        {bet.markets.question.replace(/\[.*?\]\s*/g, '')}
+                        {displayQuestion}
                       </h4>
                       <div className="flex items-center gap-4 text-[10px] font-mono text-zinc-400 uppercase tracking-tighter">
                         <span>Apostado: {bet.amount} USDC</span>

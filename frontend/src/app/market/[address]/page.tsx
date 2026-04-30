@@ -102,108 +102,112 @@ export default function MarketDetailPage() {
   const displayQuestion = market?.question ? market.question.replace(/\[.*?\]\s*/g, '') : "Cargando...";
 
   return (
-    <div className="min-h-screen bg-white text-zinc-900 pb-24 md:pb-8 pt-20">
+    <div className="min-h-screen bg-white text-zinc-900 pb-24 md:pb-8 pt-10">
       
       <main className="container mx-auto px-4 py-8">
-        <Link 
-          href="/" 
-          className="inline-flex items-center gap-2 text-zinc-500 hover:text-emerald-600 mb-8 transition-colors group"
-        >
-          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-          <span>Volver a mercados</span>
-        </Link>
+        
+        {/* Hero Section - Matched with Home */}
+        <section className="mb-12">
+          <Link 
+            href="/" 
+            className="inline-flex items-center gap-2 text-zinc-400 hover:text-emerald-600 mb-8 transition-colors group text-[10px] font-black uppercase tracking-widest"
+          >
+            <ArrowLeft className="w-3 h-3 group-hover:-translate-x-1 transition-transform" />
+            <span>Volver a mercados</span>
+          </Link>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          
-          {/* Columna Izquierda: Información y Análisis */}
-          <div className="lg:col-span-2 space-y-6">
-            
-            {/* Header del Mercado */}
-            <div className={cn(
-              "bg-white border p-8 rounded-[2rem] shadow-sm relative overflow-hidden transition-opacity",
-              isClosed ? "border-zinc-200 opacity-80" : "border-zinc-200"
-            )}>
-              <div className="absolute top-0 right-0 p-6">
-                <OracleStatusBadge status={isResolved ? 'resolved' : (isExpired ? 'processing' : 'active')} />
-              </div>
-              
-              <div className="flex items-center gap-3 text-zinc-400 mb-4 text-sm font-mono">
-                <Timer className="w-4 h-4 text-emerald-500" />
-                <span>{isClosed ? 'Cerrado el:' : 'Expira:'} {new Date(market.ends_at).toLocaleDateString()}</span>
-              </div>
+          <div className="flex items-center gap-2 mb-4">
+            <div className="h-[2px] w-8 bg-emerald-500" />
+            <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-emerald-600 font-bold italic">Mercado en Tiempo Real</span>
+          </div>
 
-              <h1 className="text-3xl md:text-5xl font-bold text-zinc-900 mb-6 leading-tight tracking-tight">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+            <div className="max-w-4xl">
+              <h1 className="text-4xl md:text-6xl font-extrabold text-zinc-900 leading-[1.1] tracking-tighter mb-6">
                 {displayQuestion}
               </h1>
-
-              <div className="flex flex-wrap gap-4 items-center">
-                <div className="px-4 py-2 bg-zinc-50 rounded-full border border-zinc-100 flex items-center gap-2">
-                  <Activity className="w-4 h-4 text-emerald-500" />
-                  <span className="text-sm font-medium text-zinc-700">Volumen: ${market.total_yes + market.total_no || '0.00'}</span>
+              
+              <div className="flex flex-wrap gap-3 items-center">
+                <div className="px-4 py-2 bg-zinc-50 rounded-full border border-zinc-100 flex items-center gap-2 shadow-sm">
+                  <Activity className="w-3.5 h-3.5 text-emerald-500" />
+                  <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Volumen: ${(Number(market.total_yes) + Number(market.total_no)).toFixed(2)} USDC</span>
                 </div>
-                <div className="px-4 py-2 bg-zinc-50 rounded-full border border-zinc-100 flex items-center gap-2">
-                  <TrendingUp className="w-4 h-4 text-emerald-500" />
-                  <span className="text-sm font-medium text-zinc-700">Probabilidad: {market.total_yes > 0 ? Math.round((market.total_yes / (market.total_yes + market.total_no)) * 100) : '50'}%</span>
+                <div className="px-4 py-2 bg-zinc-50 rounded-full border border-zinc-100 flex items-center gap-2 shadow-sm">
+                  <Timer className="w-3.5 h-3.5 text-emerald-500" />
+                  <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">
+                    {isClosed ? 'Cerrado el:' : 'Expira:'} {new Date(market.ends_at).toLocaleDateString()}
+                  </span>
                 </div>
+                <OracleStatusBadge status={isResolved ? 'resolved' : (isExpired ? 'processing' : 'active')} />
               </div>
             </div>
+          </div>
+        </section>
 
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+          
+          {/* Columna Izquierda: Información y Análisis */}
+          <div className="lg:col-span-8 space-y-8">
+            
             {/* Gráfico Placeholder (Clean Style) */}
-            <div className="bg-white border border-zinc-200 p-6 rounded-[2rem] h-80 relative group overflow-hidden shadow-sm">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="font-mono text-xs uppercase tracking-widest text-zinc-400">Gráfico de Probabilidad</h3>
-                <div className="flex gap-2">
+            <div className="bg-white border border-zinc-200 p-10 rounded-[2.5rem] h-[400px] relative group overflow-hidden shadow-sm">
+              <div className="flex items-center justify-between mb-8">
+                <h3 className="font-black text-[10px] uppercase tracking-[0.3em] text-zinc-400">Trading_View_Terminal</h3>
+                <div className="flex gap-2 items-center">
                   <span className={cn("w-2 h-2 rounded-full animate-pulse", isClosed ? "bg-zinc-300" : "bg-emerald-500")} />
-                  <span className={cn("text-[10px] font-mono", isClosed ? "text-zinc-400" : "text-emerald-600")}>
-                    {isClosed ? "MERCADO CERRADO" : "DATOS EN TIEMPO REAL"}
+                  <span className={cn("text-[9px] font-mono font-bold", isClosed ? "text-zinc-400" : "text-emerald-600")}>
+                    {isClosed ? "TERMINAL_LOCKED" : "LIVE_FEED_ACTIVE"}
                   </span>
                 </div>
               </div>
-              <div className="h-full flex flex-col items-center justify-center border border-dashed border-zinc-200 rounded-xl bg-zinc-50">
-                <TrendingUp className="w-12 h-12 text-zinc-200 mb-2 group-hover:text-emerald-500/20 transition-colors" />
-                <p className="text-zinc-400 font-mono text-xs">[ TRADING_VIEW_WIDGET_LOCKED ]</p>
-                <p className="text-[10px] text-zinc-400 mt-2 italic">Seguimiento histórico próximamente</p>
+              <div className="h-full flex flex-col items-center justify-center border border-dashed border-zinc-200 rounded-[2rem] bg-zinc-50/50">
+                <TrendingUp className="w-16 h-16 text-zinc-200 mb-4 group-hover:text-emerald-500/20 transition-colors" />
+                <p className="text-zinc-400 font-mono text-xs font-bold tracking-widest">[ ENGINE_LOADING_DATA ]</p>
+                <p className="text-[9px] text-zinc-400 mt-3 italic uppercase tracking-tighter opacity-60">Visualización de liquidez próximamente</p>
               </div>
             </div>
 
             {/* AI Verdict Section */}
             <div className={cn(
-              "border p-8 rounded-[2rem] relative overflow-hidden group",
-              isResolved ? "bg-emerald-50 border-emerald-200" : "bg-zinc-50/50 border-zinc-100"
+              "border p-10 rounded-[2.5rem] relative overflow-hidden group shadow-sm transition-all",
+              isResolved ? "bg-emerald-50/50 border-emerald-200" : "bg-zinc-50/30 border-zinc-100"
             )}>
-              <div className="flex items-center gap-3 mb-6">
-                <div className={cn("p-2 rounded-lg", isResolved ? "bg-emerald-100" : "bg-zinc-100")}>
-                  <BrainCircuit className={cn("w-6 h-6", isResolved ? "text-emerald-600" : "text-zinc-400")} />
+              <div className="flex items-center gap-4 mb-8">
+                <div className={cn("p-3 rounded-2xl shadow-inner", isResolved ? "bg-emerald-100 border border-emerald-200" : "bg-zinc-100 border border-zinc-200")}>
+                  <BrainCircuit className={cn("w-7 h-7", isResolved ? "text-emerald-600" : "text-zinc-400")} />
                 </div>
-                <h3 className="text-xl font-bold text-zinc-900">
-                  {isResolved ? "Veredicto de la IA" : "Análisis Preventivo"}
-                </h3>
+                <div>
+                  <h3 className="text-xl font-black text-zinc-900 tracking-tight italic uppercase">
+                    {isResolved ? "Veredicto de la IA" : "Monitoreo Preventivo"}
+                  </h3>
+                  <p className="text-[9px] font-mono text-zinc-400 uppercase tracking-widest mt-1">Oracle_System_v2.5_Flash</p>
+                </div>
               </div>
               
               <div className="space-y-4 relative">
-                <p className="text-zinc-600 leading-relaxed italic">
-                  {market.resolution_reason || "La IA está monitoreando los eventos globales para proporcionar un veredicto factual en cuanto el mercado expire."}
+                <p className="text-zinc-600 text-lg leading-relaxed italic font-medium">
+                  "{market.resolution_reason || "La IA está monitoreando los eventos globales para proporcionar un veredicto factual en cuanto el mercado expire."}"
                 </p>
-                <div className="pt-4 flex items-center gap-2 text-[10px] font-mono text-emerald-600 uppercase tracking-tighter font-bold">
-                  <ShieldCheck className="w-3 h-3" />
-                  <span>Verificado por Gemini 2.5 Flash Oracle</span>
+                <div className="pt-6 flex items-center gap-2 text-[9px] font-black text-emerald-600 uppercase tracking-[0.2em]">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <span>Verified_by_PredicFi_Oracle_Protocol</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Columna Derecha: Panel de Apuestas */}
-          <div className="space-y-6">
-            <div className="bg-white border border-zinc-200 p-8 rounded-[2rem] shadow-xl shadow-zinc-200/50 sticky top-8">
-              <h2 className="text-xl font-mono mb-8 text-zinc-900 flex items-center gap-2 font-bold">
-                <Activity className="w-5 h-5 text-emerald-500" />
-                TERMINAL
+          <div className="lg:col-span-4 space-y-8">
+            <div className="bg-white border border-zinc-200 p-10 rounded-[2.5rem] shadow-2xl shadow-zinc-100 sticky top-24">
+              <h2 className="text-xs font-black mb-10 text-zinc-400 flex items-center gap-3 uppercase tracking-[0.3em]">
+                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                Trading_Terminal
               </h2>
               
-              <div className="space-y-8">
+              <div className="space-y-10">
                 <div>
-                  <div className="flex justify-between text-xs font-mono mb-3 px-1">
-                    <span className="text-emerald-600 font-bold">SÍ: {market.total_yes > 0 ? Math.round((market.total_yes / (market.total_yes + market.total_no)) * 100) : '50'}%</span>
+                  <div className="flex justify-between text-[10px] font-black uppercase tracking-widest mb-4 px-1">
+                    <span className="text-emerald-600">SÍ: {market.total_yes > 0 ? Math.round((market.total_yes / (market.total_yes + market.total_no)) * 100) : '50'}%</span>
                     <span className="text-zinc-400">NO: {market.total_yes > 0 ? 100 - Math.round((market.total_yes / (market.total_yes + market.total_no)) * 100) : '50'}%</span>
                   </div>
                   <ProbabilityBar yesPercentage={market.total_yes > 0 ? Math.round((market.total_yes / (market.total_yes + market.total_no)) * 100) : 50} />
@@ -213,75 +217,75 @@ export default function MarketDetailPage() {
                   <button 
                     onClick={() => { setInitialOutcome(true); setIsBetModalOpen(true); }}
                     disabled={isClosed}
-                    className="py-4 rounded-2xl bg-emerald-600 text-white font-bold hover:bg-emerald-700 transition-all transform hover:scale-[1.02] active:scale-95 shadow-lg shadow-emerald-200 disabled:opacity-20 disabled:cursor-not-allowed disabled:transform-none"
+                    className="py-5 rounded-2xl bg-emerald-600 text-white font-black text-xs uppercase tracking-widest hover:bg-emerald-700 transition-all transform hover:scale-[1.02] active:scale-95 shadow-xl shadow-emerald-200 disabled:opacity-20 disabled:cursor-not-allowed disabled:transform-none"
                   >
-                    COMPRAR SÍ
+                    Comprar SÍ
                   </button>
                   <button 
                     onClick={() => { setInitialOutcome(false); setIsBetModalOpen(true); }}
                     disabled={isClosed}
-                    className="py-4 rounded-2xl bg-zinc-900 text-white font-bold hover:bg-black transition-all transform hover:scale-[1.02] active:scale-95 shadow-lg shadow-zinc-200 disabled:opacity-20 disabled:cursor-not-allowed disabled:transform-none"
+                    className="py-5 rounded-2xl bg-zinc-900 text-white font-black text-xs uppercase tracking-widest hover:bg-black transition-all transform hover:scale-[1.02] active:scale-95 shadow-xl shadow-zinc-200 disabled:opacity-20 disabled:cursor-not-allowed disabled:transform-none"
                   >
-                    COMPRAR NO
+                    Comprar NO
                   </button>
                 </div>
 
-                <div className="pt-6 border-t border-zinc-100">
+                <div className="pt-8 border-t border-zinc-100">
                   {isResolved && (
                     <button 
                       disabled={!canClaim}
                       className={cn(
-                        "w-full py-4 rounded-2xl font-bold transition-all mb-4 shadow-lg flex items-center justify-center gap-2",
+                        "w-full py-5 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] transition-all mb-6 shadow-xl flex items-center justify-center gap-3",
                         canClaim 
                           ? "bg-emerald-600 text-white hover:bg-emerald-700 shadow-emerald-200" 
-                          : "bg-zinc-100 text-zinc-400 cursor-not-allowed shadow-none border border-zinc-200"
+                          : "bg-zinc-50 text-zinc-300 cursor-not-allowed shadow-none border border-zinc-100"
                       )}
                     >
-                      {canClaim ? <ShieldCheck className="w-5 h-5" /> : <Timer className="w-5 h-5" />}
-                      {canClaim ? "RECLAMAR GANANCIAS" : "BLOQUEADO (EN DISPUTA)"}
+                      {canClaim ? <ShieldCheck className="w-4 h-4" /> : <Timer className="w-4 h-4" />}
+                      {canClaim ? "Reclamar Ganancias" : "Bloqueado_En_Disputa"}
                     </button>
                   )}
 
                   {isClosed ? (
-                    <div className="p-4 bg-orange-50 border border-orange-100 rounded-xl">
-                      <p className="text-[10px] text-orange-700 font-bold uppercase tracking-widest text-center">
-                        {isResolved ? "MERCADO FINALIZADO" : "TIEMPO AGOTADO - ESPERANDO IA"}
+                    <div className="p-6 bg-zinc-50 border border-zinc-100 rounded-2xl text-center">
+                      <p className="text-[9px] text-zinc-400 font-black uppercase tracking-[0.3em]">
+                        {isResolved ? "MERCADO FINALIZADO" : "PENDIENTE_DE_IA"}
                       </p>
                     </div>
                   ) : (
-                    <>
-                      <div className="flex items-center gap-2 text-zinc-400 text-xs mb-4">
-                        <Info className="w-4 h-4" />
-                        <span>Transacción protegida vía EIP-2612</span>
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-2 text-zinc-400 text-[9px] font-bold uppercase tracking-widest">
+                        <Info className="w-3 h-3 text-emerald-500" />
+                        <span>Gasless_Via_Permit_Enabled</span>
                       </div>
-                      <div className="p-4 bg-zinc-50 rounded-xl border border-zinc-100">
-                        <div className="flex justify-between text-xs">
-                          <span className="text-zinc-500 font-mono uppercase tracking-widest">Red</span>
-                          <span className="text-emerald-600 font-bold">Base Sepolia</span>
+                      <div className="p-4 bg-zinc-50 rounded-2xl border border-zinc-100">
+                        <div className="flex justify-between text-[9px] font-black uppercase tracking-[0.2em]">
+                          <span className="text-zinc-400">Protocol_Network</span>
+                          <span className="text-emerald-600">Base Sepolia</span>
                         </div>
                       </div>
-                    </>
+                    </div>
                   )}
                 </div>
               </div>
             </div>
 
             {/* Actividad Reciente */}
-            <div className="bg-zinc-50 border border-zinc-100 p-6 rounded-[2rem]">
-              <h4 className="text-xs font-mono text-zinc-400 uppercase mb-4 tracking-widest">Actividad Reciente</h4>
+            <div className="bg-zinc-50/50 border border-zinc-100 p-8 rounded-[2.5rem]">
+              <h4 className="text-[10px] font-black text-zinc-400 uppercase mb-6 tracking-[0.3em]">Live_Feed_Activity</h4>
               <div className="space-y-4">
                 {recentBets.length === 0 ? (
-                  <p className="text-[11px] font-mono text-zinc-400 text-center py-4">Sin actividad aún</p>
+                  <p className="text-[10px] font-mono text-zinc-300 text-center py-6 italic uppercase tracking-tighter">No hay actividad reciente</p>
                 ) : (
                   recentBets.map((bet, i) => (
-                    <div key={i} className="flex items-center justify-between text-[11px] font-mono py-2 border-b border-zinc-200/50 last:border-0">
-                      <span className="text-zinc-500">
-                        {bet.user_address ? `${bet.user_address.slice(0, 6)}...${bet.user_address.slice(-4)}` : '0x???'}
+                    <div key={i} className="flex items-center justify-between text-[10px] font-mono py-3 border-b border-zinc-200/50 last:border-0">
+                      <span className="text-zinc-500 font-bold uppercase tracking-tighter">
+                        {bet.user_address ? `${bet.user_address.slice(0, 4)}...${bet.user_address.slice(-4)}` : '0x???'}
                       </span>
-                      <span className={bet.is_yes ? "text-emerald-600 font-bold" : "text-red-500 font-bold"}>
-                        {bet.is_yes ? 'COMPRÓ SÍ' : 'COMPRÓ NO'}
+                      <span className={cn("font-black tracking-tighter", bet.is_yes ? "text-emerald-600" : "text-red-500")}>
+                        {bet.is_yes ? 'B_YES' : 'B_NO'}
                       </span>
-                      <span className="text-zinc-900">${Number(bet.amount || 0).toFixed(2)}</span>
+                      <span className="text-zinc-900 font-black italic">${Number(bet.amount || 0).toFixed(2)}</span>
                     </div>
                   ))
                 )}

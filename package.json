@@ -1,0 +1,8 @@
+{
+  "name": "ai-prediction-market",
+  "version": "1.0.0",
+  "description": "PredicFi - AI Prediction Market on Base",
+  "scripts": {
+    "prepare-deploy": "cd contracts && forge build && cd ../frontend && npx tsc --noEmit"
+  }
+}

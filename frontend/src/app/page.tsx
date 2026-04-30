@@ -5,10 +5,14 @@ import { MarketCard } from '@/components/markets/MarketCard';
 import { cn } from '@/lib/utils';
 import { TrendingUp, Users, Zap, History } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import MatchRow from '@/components/markets/MatchRow';
+import PollaVaultCard from '@/components/markets/PollaVaultCard';
+import { mockMatches, pollaVaultMock, mockProMarkets } from '@/lib/mockMarkets';
 
 export default function Home() {
   const [activeMarkets, setActiveMarkets] = useState<any[]>([]);
   const [resolvedMarkets, setResolvedMarkets] = useState<any[]>([]);
+  const [visibleCount, setVisibleCount] = useState(20);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -33,7 +37,7 @@ export default function Home() {
       const { data, error } = await supabase
         .from('markets')
         .select('*')
-        .order('created_at', { ascending: false });
+        .order('ends_at', { ascending: true });
 
       if (error) throw error;
       
@@ -69,7 +73,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Mercados Activos */}
+        {/* Galería de Formatos PredicFi */}
         <section className="mb-20">
           <div className="flex items-center justify-between mb-8 border-b border-zinc-100 pb-4">
             <h3 className="text-2xl font-bold text-zinc-900 tracking-tight flex items-center gap-3">
@@ -77,26 +81,34 @@ export default function Home() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
               </span>
-              Mercados Activos
+              Galería de Formatos PredicFi
             </h3>
           </div>
           
-          {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[1, 2, 3].map((i) => <div key={i} className="h-64 bg-zinc-50 animate-pulse rounded-[2rem] border border-zinc-100" />)}
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {activeMarkets.map((market) => (
-                <MarketCard key={market.market_address} address={market.market_address} />
-              ))}
-              {activeMarkets.length === 0 && (
-                <div className="col-span-full py-16 text-center bg-zinc-50 rounded-[2.5rem] border border-dashed border-zinc-200">
-                  <p className="text-zinc-400 font-mono text-sm">No hay mercados abiertos a nuevas apuestas.</p>
+          <div className="space-y-12">
+            {/* 1. Formato 1X2 & 2. PollaVault */}
+            <div>
+              <h4 className="text-lg font-black text-zinc-500 mb-4 uppercase tracking-widest">1. Formato 1X2 & 2. Pari-Mutuel (Deportes)</h4>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="space-y-4">
+                  <MatchRow {...mockMatches[0]} />
                 </div>
-              )}
+                <div>
+                  <PollaVaultCard {...pollaVaultMock} />
+                </div>
+              </div>
             </div>
-          )}
+
+            {/* 3, 4, 5. Formatos Pro / Crypto / Eventos */}
+            <div>
+              <h4 className="text-lg font-black text-zinc-500 mb-4 uppercase tracking-widest">3, 4, 5. Formatos Clásico, Multi-Nivel y Eventos</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {mockProMarkets.map((market, idx) => (
+                  <MarketCard key={`mock-${idx}`} {...market} />
+                ))}
+              </div>
+            </div>
+          </div>
         </section>
 
         {/* Historial (Resueltos o Expirados) */}
