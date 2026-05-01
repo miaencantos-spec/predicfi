@@ -1,7 +1,10 @@
 import React from 'react';
 import { Users, Trophy, ArrowRight } from 'lucide-react';
+import { toast } from "sonner";
+import Link from "next/link";
 
 interface PollaVaultCardProps {
+  address?: string;
   title: string;
   participants: string;
   pool: string;
@@ -9,13 +12,24 @@ interface PollaVaultCardProps {
 }
 
 const PollaVaultCard: React.FC<PollaVaultCardProps> = ({
+  address,
   title,
   participants,
   pool,
   entryFee
 }) => {
-  return (
-    <div className="bg-gradient-to-br from-indigo-900 to-purple-900 rounded-[2rem] p-8 border border-indigo-500/30 shadow-xl shadow-purple-900/20 hover:shadow-2xl hover:shadow-purple-900/40 transition-all flex flex-col group relative overflow-hidden">
+  const handleMockClick = (e: React.MouseEvent) => {
+    if (!address) {
+      e.preventDefault();
+      e.stopPropagation();
+      toast.info("Este es un mercado de demostración (mock).", {
+        description: "Prueba los 'Mercados Activos (Real)' para apostar de verdad."
+      });
+    }
+  };
+
+  const content = (
+    <div className="bg-gradient-to-br from-indigo-900 to-purple-900 rounded-[2rem] p-8 border border-indigo-500/30 shadow-xl shadow-purple-900/20 hover:shadow-2xl hover:shadow-purple-900/40 transition-all flex flex-col group relative overflow-hidden h-full">
       {/* Background decorations */}
       <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-purple-500 rounded-full blur-3xl opacity-20"></div>
       <div className="absolute bottom-0 left-0 -mb-10 -ml-10 w-40 h-40 bg-indigo-500 rounded-full blur-3xl opacity-20"></div>
@@ -47,8 +61,10 @@ const PollaVaultCard: React.FC<PollaVaultCardProps> = ({
           </div>
         </div>
 
-        <button className="w-full py-4 rounded-2xl bg-gradient-to-r from-yellow-400 to-yellow-500 text-yellow-900 font-black text-sm uppercase tracking-widest hover:from-yellow-300 hover:to-yellow-400 transition-all shadow-lg shadow-yellow-500/20 flex items-center justify-center gap-2 group/btn">
-          Unirse por {entryFee}
+        <button 
+          onClick={handleMockClick}
+          className="w-full py-4 rounded-2xl bg-gradient-to-r from-yellow-400 to-yellow-500 text-yellow-900 font-black text-sm uppercase tracking-widest hover:from-yellow-300 hover:to-yellow-400 transition-all shadow-lg shadow-yellow-500/20 flex items-center justify-center gap-2 group/btn">
+          {address ? 'Unirse Ahora' : `Unirse por ${entryFee}`}
           <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
         </button>
       </div>
@@ -57,12 +73,18 @@ const PollaVaultCard: React.FC<PollaVaultCardProps> = ({
       <div className="relative z-10 mt-6 pt-6 border-t border-white/10 flex items-center justify-between text-[10px] font-black text-indigo-200">
         <span className="uppercase tracking-widest flex items-center gap-1.5">
           <span className="flex h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
-          REGISTRO ABIERTO
+          {address ? 'LIVE ON CHAIN' : 'REGISTRO ABIERTO'}
         </span>
         <span className="uppercase tracking-widest bg-white/10 px-2 py-1 rounded-md backdrop-blur-sm">SPORTS</span>
       </div>
     </div>
   );
+
+  return address ? (
+    <Link href={`/market/${address}`} className="block h-full">
+      {content}
+    </Link>
+  ) : content;
 };
 
 export default PollaVaultCard;

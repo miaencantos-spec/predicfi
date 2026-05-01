@@ -181,17 +181,27 @@ export default function DashboardPage() {
                 const isWinner = isResolved && bet.is_yes === marketData.outcome;
                 const displayQuestion = (bet.question || marketData.question || 'Cargando pregunta...').replace(/\[.*?\]\s*/g, '');
                 
+                // Detectar Formato y Labels
+                const format = (bet.question || marketData.question)?.match(/\[FORMAT:(.*?)\]/i)?.[1] || 'BINARY';
+                const h2hMatch = (bet.question || marketData.question)?.match(/\[H2H:\s*(.*?)\s*vs\s*(.*?)\s*\]/i);
+                const match1X2 = (bet.question || marketData.question)?.match(/\[1X2:\s*(.*?)\s*vs\s*(.*?)\s*\]/i);
+                
+                let predictionLabel = bet.is_yes ? "SÍ" : "NO";
+                if (format === 'POLLA') predictionLabel = "INSCRITO";
+                else if (h2hMatch) predictionLabel = bet.is_yes ? h2hMatch[1] : h2hMatch[2];
+                else if (match1X2) predictionLabel = bet.is_yes ? match1X2[1] : (bet.is_yes === false ? "Empate" : "SÍ");
+
                 return (
                   <div key={bet.id} className="bg-white p-8 rounded-[2rem] border border-zinc-200 flex flex-col md:flex-row md:items-center justify-between gap-6 group hover:border-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/5 transition-all">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-4">
                         <span className={cn(
                           "text-[9px] font-mono font-bold uppercase px-3 py-1 rounded-full border",
-                          bet.is_yes 
+                          bet.is_yes || format === 'POLLA'
                             ? "bg-emerald-50 text-emerald-600 border-emerald-100" 
                             : "bg-red-50 text-red-600 border-red-100"
                         )}>
-                          Predicción: {bet.is_yes ? "SÍ" : "NO"}
+                          {format === 'POLLA' ? 'ESTADO' : 'Predicción'}: {predictionLabel}
                         </span>
                         <span className={cn(
                           "text-[9px] font-mono font-bold uppercase px-3 py-1 rounded-full border",
@@ -201,12 +211,15 @@ export default function DashboardPage() {
                         )}>
                           {isResolved ? "COMPLETADO" : "EN MERCADO"}
                         </span>
+                        <span className="text-[9px] font-mono font-bold uppercase px-3 py-1 rounded-full border bg-zinc-50 text-zinc-400 border-zinc-100">
+                          {format}
+                        </span>
                       </div>
                       <h4 className="text-lg font-bold text-zinc-900 mb-2 group-hover:text-emerald-600 transition-colors">
                         {displayQuestion}
                       </h4>
                       <div className="flex items-center gap-4 text-[10px] font-mono text-zinc-400 uppercase tracking-tighter">
-                        <span>Apostado: {bet.amount} USDC</span>
+                        <span>{format === 'POLLA' ? 'Inscripción' : 'Inversión'}: {bet.amount} USDC</span>
                         <span className="w-1 h-1 rounded-full bg-zinc-200" />
                         <span>{new Date(bet.created_at).toLocaleDateString()}</span>
                       </div>

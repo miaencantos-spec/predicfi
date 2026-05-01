@@ -12,10 +12,10 @@ import { baseSepolia } from 'thirdweb/chains';
 import { createWallet, inAppWallet } from 'thirdweb/wallets';
 import { supabase } from '@/lib/supabase';
 
-// Base Sepolia con RPC de Alchemy (hardcoded para evitar rate limits)
+// Base Sepolia con RPC de Alchemy
 const customBaseSepolia = {
   ...baseSepolia,
-  rpc: "https://base-sepolia.g.alchemy.com/v2/nn0ydHbZ0QvA9S53B6CnX",
+  rpc: process.env.NEXT_PUBLIC_ALCHEMY_RPC_URL || "https://sepolia.base.org",
 };
 
 const USDC_BASE_SEPOLIA = {

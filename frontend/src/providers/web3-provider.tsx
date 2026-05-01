@@ -2,9 +2,10 @@
 
 import { createThirdwebClient } from "thirdweb";
 import { ThirdwebProvider } from "thirdweb/react";
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import { AuthSync } from "./AuthSync";
 import { createWallet, inAppWallet } from "thirdweb/wallets";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // Reemplazar con el Client ID de Thirdweb Dashboard
 export const client = createThirdwebClient({
@@ -22,10 +23,14 @@ export const wallets = [
 ];
 
 export function Web3Provider({ children }: { children: ReactNode }) {
+  const [queryClient] = useState(() => new QueryClient());
+
   return (
-    <ThirdwebProvider>
-      <AuthSync />
-      {children}
-    </ThirdwebProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThirdwebProvider>
+        <AuthSync />
+        {children}
+      </ThirdwebProvider>
+    </QueryClientProvider>
   );
 }

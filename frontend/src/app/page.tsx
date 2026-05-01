@@ -62,6 +62,17 @@ export default function Home() {
     }
   }
 
+  // Filtrar mercados por formato usando etiquetas en la pregunta [FORMAT:XXX]
+  const getMarketsByFormat = (format: string) => {
+    return activeMarkets.filter(m => m.question?.includes(`[FORMAT:${format}]`));
+  };
+
+  const binaryReal = getMarketsByFormat('BINARY');
+  const h2hReal = getMarketsByFormat('H2H');
+  const multiReal = getMarketsByFormat('MULTI');
+  const matchesReal = getMarketsByFormat('1X2');
+  const pollaReal = getMarketsByFormat('POLLA');
+
   return (
     <div className="min-h-screen bg-white text-zinc-900 pb-20 md:pb-8">
       <main className="container mx-auto px-4 py-16">
@@ -87,7 +98,7 @@ export default function Home() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
               </span>
-              Galería de Formatos PredicFi
+              Galería de Formatos PredicFi (Real vs Mock)
             </h3>
           </div>
           
@@ -96,6 +107,26 @@ export default function Home() {
             <div>
               <h4 className="text-lg font-black text-zinc-500 mb-6 uppercase tracking-widest border-l-4 border-yellow-400 pl-4">1. Formato 1X2 (Mundial 2026)</h4>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Real Markets first */}
+                {matchesReal.map((market) => {
+                  const teamsMatch = market.question?.match(/\[1X2:\s*(.*?)\s*vs\s*(.*?)\s*\]/i);
+                  return (
+                    <MatchRow 
+                      key={market.market_address} 
+                      address={market.market_address}
+                      league="Liga PredicFi"
+                      time={new Date(market.ends_at).toLocaleTimeString()}
+                      homeTeam={teamsMatch?.[1] || "Local"}
+                      awayTeam={teamsMatch?.[2] || "Visitante"}
+                      homeColor="bg-zinc-800"
+                      awayColor="bg-emerald-600"
+                      homePrice="LIVE"
+                      drawPrice="LIVE"
+                      awayPrice="LIVE"
+                    />
+                  );
+                })}
+                {/* Then Mocks */}
                 {mockMatches.map((match, idx) => (
                   <MatchRow key={`match-${idx}`} {...match} />
                 ))}
@@ -106,6 +137,18 @@ export default function Home() {
             <div>
               <h4 className="text-lg font-black text-zinc-500 mb-6 uppercase tracking-widest border-l-4 border-emerald-500 pl-4">2. Formato PollaVault (Pari-Mutuel)</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {/* Real Markets first */}
+                {pollaReal.map((market) => (
+                  <PollaVaultCard 
+                    key={market.market_address} 
+                    address={market.market_address}
+                    title={market.question?.replace(/\[.*?\]\s*/g, '') || market.question}
+                    participants="0/15"
+                    pool="0 USDC"
+                    entryFee="10 USDC"
+                  />
+                ))}
+                {/* Then Mocks */}
                 {mockPollaVaults.map((vault, idx) => (
                   <PollaVaultCard key={`vault-${idx}`} {...vault} />
                 ))}
@@ -116,6 +159,11 @@ export default function Home() {
             <div>
               <h4 className="text-lg font-black text-zinc-500 mb-6 uppercase tracking-widest border-l-4 border-blue-500 pl-4">3. Formato Binario Clásico (Crypto SÍ/NO)</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {/* Real Markets first */}
+                {binaryReal.map((market) => (
+                  <MarketCard key={market.market_address} address={market.market_address} />
+                ))}
+                {/* Then Mocks */}
                 {mockBinaryMarkets.map((market, idx) => (
                   <MarketCard key={`binary-${idx}`} {...market} />
                 ))}
@@ -126,6 +174,20 @@ export default function Home() {
             <div>
               <h4 className="text-lg font-black text-zinc-500 mb-6 uppercase tracking-widest border-l-4 border-purple-500 pl-4">4. Formato Multi-Nivel (Agrupadores)</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {/* Real Markets first */}
+                {multiReal.map((market) => {
+                  const optionsMatch = market.question?.match(/\[OPTIONS:\s*(.*?)\s*\]/i);
+                  const options = optionsMatch?.[1].split(',').map(opt => ({ label: opt.trim(), chance: '??%' })) || [];
+                  return (
+                    <MarketCard 
+                      key={market.market_address} 
+                      address={market.market_address} 
+                      variant="multi" 
+                      options={options}
+                    />
+                  );
+                })}
+                {/* Then Mocks */}
                 {mockMultiLevelMarkets.map((market, idx) => (
                   <MarketCard key={`multi-${idx}`} {...market} />
                 ))}
@@ -136,6 +198,11 @@ export default function Home() {
             <div>
               <h4 className="text-lg font-black text-zinc-500 mb-6 uppercase tracking-widest border-l-4 border-red-500 pl-4">5. Formato Cara a Cara (Eventos Directos)</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {/* Real Markets first */}
+                {h2hReal.map((market) => (
+                  <MarketCard key={market.market_address} address={market.market_address} />
+                ))}
+                {/* Then Mocks */}
                 {mockHeadToHeadMarkets.map((market, idx) => (
                   <MarketCard key={`h2h-${idx}`} {...market} />
                 ))}

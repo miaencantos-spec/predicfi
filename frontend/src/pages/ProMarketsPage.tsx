@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { MarketCard } from '../components/markets/MarketCard';
 import { mockProMarkets } from '../lib/mockMarkets';

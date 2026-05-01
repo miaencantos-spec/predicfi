@@ -101,6 +101,20 @@ export default function MarketDetailPage() {
 
   const displayQuestion = market?.question ? market.question.replace(/\[.*?\]\s*/g, '') : "Cargando...";
 
+  // Detectar Formato
+  const format = market?.question?.match(/\[FORMAT:(.*?)\]/i)?.[1] || 'BINARY';
+  
+  // Parsear opciones si es MULTI
+  const optionsMatch = market?.question?.match(/\[OPTIONS:\s*(.*?)\s*\]/i);
+  const multiOptions = optionsMatch?.[1].split(',').map((opt: string) => opt.trim()) || [];
+
+  // Parsear equipos si es 1X2 o H2H
+  const h2hMatch = market?.question?.match(/\[H2H:\s*(.*?)\s*vs\s*(.*?)\s*\]/i);
+  const match1X2 = market?.question?.match(/\[1X2:\s*(.*?)\s*vs\s*(.*?)\s*\]/i);
+  
+  const yesLabel = h2hMatch ? h2hMatch[1] : (match1X2 ? match1X2[1] : "SÍ");
+  const noLabel = h2hMatch ? h2hMatch[2] : (match1X2 ? match1X2[2] : "NO");
+
   return (
     <div className="min-h-screen bg-white text-zinc-900 pb-24 md:pb-8 pt-10">
       
@@ -118,7 +132,9 @@ export default function MarketDetailPage() {
 
           <div className="flex items-center gap-2 mb-4">
             <div className="h-[2px] w-8 bg-emerald-500" />
-            <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-emerald-600 font-bold italic">Mercado en Tiempo Real</span>
+            <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-emerald-600 font-bold italic">
+              {format === 'POLLA' ? 'Bóveda Pari-Mutuel' : 'Mercado en Tiempo Real'}
+            </span>
           </div>
 
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
@@ -130,7 +146,9 @@ export default function MarketDetailPage() {
               <div className="flex flex-wrap gap-3 items-center">
                 <div className="px-4 py-2 bg-zinc-50 rounded-full border border-zinc-100 flex items-center gap-2 shadow-sm">
                   <Activity className="w-3.5 h-3.5 text-emerald-500" />
-                  <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">Volumen: ${(Number(market.total_yes) + Number(market.total_no)).toFixed(2)} USDC</span>
+                  <span className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">
+                    {format === 'POLLA' ? 'Pozo Estimado' : 'Volumen'}: ${(Number(market.total_yes || 0) + Number(market.total_no || 0)).toFixed(2)} USDC
+                  </span>
                 </div>
                 <div className="px-4 py-2 bg-zinc-50 rounded-full border border-zinc-100 flex items-center gap-2 shadow-sm">
                   <Timer className="w-3.5 h-3.5 text-emerald-500" />
@@ -152,7 +170,9 @@ export default function MarketDetailPage() {
             {/* Gráfico Placeholder (Clean Style) */}
             <div className="bg-white border border-zinc-200 p-10 rounded-[2.5rem] h-[400px] relative group overflow-hidden shadow-sm">
               <div className="flex items-center justify-between mb-8">
-                <h3 className="font-black text-[10px] uppercase tracking-[0.3em] text-zinc-400">Trading_View_Terminal</h3>
+                <h3 className="font-black text-[10px] uppercase tracking-[0.3em] text-zinc-400">
+                  {format === 'POLLA' ? 'VAULT_PARTICIPANTS_FEED' : 'Trading_View_Terminal'}
+                </h3>
                 <div className="flex gap-2 items-center">
                   <span className={cn("w-2 h-2 rounded-full animate-pulse", isClosed ? "bg-zinc-300" : "bg-emerald-500")} />
                   <span className={cn("text-[9px] font-mono font-bold", isClosed ? "text-zinc-400" : "text-emerald-600")}>
@@ -161,9 +181,17 @@ export default function MarketDetailPage() {
                 </div>
               </div>
               <div className="h-full flex flex-col items-center justify-center border border-dashed border-zinc-200 rounded-[2rem] bg-zinc-50/50">
-                <TrendingUp className="w-16 h-16 text-zinc-200 mb-4 group-hover:text-emerald-500/20 transition-colors" />
-                <p className="text-zinc-400 font-mono text-xs font-bold tracking-widest">[ ENGINE_LOADING_DATA ]</p>
-                <p className="text-[9px] text-zinc-400 mt-3 italic uppercase tracking-tighter opacity-60">Visualización de liquidez próximamente</p>
+                {format === 'POLLA' ? (
+                  <Activity className="w-16 h-16 text-zinc-200 mb-4 group-hover:text-emerald-500/20 transition-colors" />
+                ) : (
+                  <TrendingUp className="w-16 h-16 text-zinc-200 mb-4 group-hover:text-emerald-500/20 transition-colors" />
+                )}
+                <p className="text-zinc-400 font-mono text-xs font-bold tracking-widest">
+                  {format === 'POLLA' ? '[ SYNCING_PARTICIPANTS ]' : '[ ENGINE_LOADING_DATA ]'}
+                </p>
+                <p className="text-[9px] text-zinc-400 mt-3 italic uppercase tracking-tighter opacity-60">
+                  {format === 'POLLA' ? 'Visualización de predicciones próximamente' : 'Visualización de liquidez próximamente'}
+                </p>
               </div>
             </div>
 
@@ -186,7 +214,9 @@ export default function MarketDetailPage() {
               
               <div className="space-y-4 relative">
                 <p className="text-zinc-600 text-lg leading-relaxed italic font-medium">
-                  "{market.resolution_reason || "La IA está monitoreando los eventos globales para proporcionar un veredicto factual en cuanto el mercado expire."}"
+                  "{market.resolution_reason || (format === 'POLLA' 
+                    ? "La IA validará cada marcador de los partidos seleccionados una vez finalicen para determinar los ganadores de la polla." 
+                    : "La IA está monitoreando los eventos globales para proporcionar un veredicto factual en cuanto el mercado expire.")}"
                 </p>
                 <div className="pt-6 flex items-center gap-2 text-[9px] font-black text-emerald-600 uppercase tracking-[0.2em]">
                   <ShieldCheck className="w-3.5 h-3.5" />
@@ -201,33 +231,92 @@ export default function MarketDetailPage() {
             <div className="bg-white border border-zinc-200 p-10 rounded-[2.5rem] shadow-2xl shadow-zinc-100 sticky top-24">
               <h2 className="text-xs font-black mb-10 text-zinc-400 flex items-center gap-3 uppercase tracking-[0.3em]">
                 <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                Trading_Terminal
+                {format === 'POLLA' ? 'Vault_Entry' : 'Trading_Terminal'}
               </h2>
               
               <div className="space-y-10">
-                <div>
-                  <div className="flex justify-between text-[10px] font-black uppercase tracking-widest mb-4 px-1">
-                    <span className="text-emerald-600">SÍ: {market.total_yes > 0 ? Math.round((market.total_yes / (market.total_yes + market.total_no)) * 100) : '50'}%</span>
-                    <span className="text-zinc-400">NO: {market.total_yes > 0 ? 100 - Math.round((market.total_yes / (market.total_yes + market.total_no)) * 100) : '50'}%</span>
+                {format !== 'POLLA' && (
+                  <div>
+                    <div className="flex justify-between text-[10px] font-black uppercase tracking-widest mb-4 px-1">
+                      <span className="text-emerald-600">
+                        {format === 'BINARY' || format === 'H2H' ? (yesLabel + ':') : 'SÍ:'} {market.total_yes > 0 ? Math.round((market.total_yes / (market.total_yes + market.total_no)) * 100) : '50'}%
+                      </span>
+                      <span className="text-zinc-400">
+                        {format === 'BINARY' || format === 'H2H' ? (noLabel + ':') : 'NO:'} {market.total_yes > 0 ? 100 - Math.round((market.total_yes / (market.total_yes + market.total_no)) * 100) : '50'}%
+                      </span>
+                    </div>
+                    <ProbabilityBar yesPercentage={market.total_yes > 0 ? Math.round((market.total_yes / (market.total_yes + market.total_no)) * 100) : 50} />
                   </div>
-                  <ProbabilityBar yesPercentage={market.total_yes > 0 ? Math.round((market.total_yes / (market.total_yes + market.total_no)) * 100) : 50} />
-                </div>
+                )}
 
-                <div className="grid grid-cols-2 gap-4">
-                  <button 
-                    onClick={() => { setInitialOutcome(true); setIsBetModalOpen(true); }}
-                    disabled={isClosed}
-                    className="py-5 rounded-2xl bg-emerald-600 text-white font-black text-xs uppercase tracking-widest hover:bg-emerald-700 transition-all transform hover:scale-[1.02] active:scale-95 shadow-xl shadow-emerald-200 disabled:opacity-20 disabled:cursor-not-allowed disabled:transform-none"
-                  >
-                    Comprar SÍ
-                  </button>
-                  <button 
-                    onClick={() => { setInitialOutcome(false); setIsBetModalOpen(true); }}
-                    disabled={isClosed}
-                    className="py-5 rounded-2xl bg-zinc-900 text-white font-black text-xs uppercase tracking-widest hover:bg-black transition-all transform hover:scale-[1.02] active:scale-95 shadow-xl shadow-zinc-200 disabled:opacity-20 disabled:cursor-not-allowed disabled:transform-none"
-                  >
-                    Comprar NO
-                  </button>
+                <div className="space-y-4">
+                  {format === 'POLLA' ? (
+                    <button 
+                      onClick={() => { setIsBetModalOpen(true); }}
+                      disabled={isClosed}
+                      className="w-full py-6 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-black text-sm uppercase tracking-widest hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:scale-[1.02] active:scale-95 shadow-xl shadow-indigo-200 disabled:opacity-20 disabled:cursor-not-allowed disabled:transform-none"
+                    >
+                      Unirse a la Polla (10 USDC)
+                    </button>
+                  ) : format === 'MULTI' ? (
+                    <div className="grid grid-cols-1 gap-3">
+                      {multiOptions.map((opt: string, i: number) => (
+                        <button 
+                          key={i}
+                          onClick={() => { setInitialOutcome(true); setIsBetModalOpen(true); }}
+                          disabled={isClosed}
+                          className="py-4 rounded-2xl border-2 border-zinc-100 text-zinc-900 font-black text-xs uppercase tracking-widest hover:border-emerald-500 hover:bg-emerald-50 transition-all flex justify-between px-6 items-center"
+                        >
+                          <span>{opt}</span>
+                          <span className="text-emerald-600 font-mono">30%</span>
+                        </button>
+                      ))}
+                    </div>
+                  ) : format === '1X2' ? (
+                    <div className="grid grid-cols-3 gap-3">
+                      <button 
+                        onClick={() => { setInitialOutcome(true); setIsBetModalOpen(true); }}
+                        disabled={isClosed}
+                        className="py-4 rounded-2xl bg-zinc-50 border border-zinc-100 text-zinc-900 font-black text-[10px] uppercase tracking-widest hover:bg-emerald-500 hover:text-white transition-all flex flex-col items-center gap-1"
+                      >
+                        <span className="opacity-40">1</span>
+                        <span>{yesLabel.slice(0, 3)}</span>
+                      </button>
+                      <button 
+                        onClick={() => { setInitialOutcome(false); setIsBetModalOpen(true); }}
+                        disabled={isClosed}
+                        className="py-4 rounded-2xl bg-zinc-50 border border-zinc-100 text-zinc-900 font-black text-[10px] uppercase tracking-widest hover:bg-zinc-900 hover:text-white transition-all flex flex-col items-center gap-1"
+                      >
+                        <span className="opacity-40">X</span>
+                        <span>EMP</span>
+                      </button>
+                      <button 
+                        onClick={() => { setInitialOutcome(false); setIsBetModalOpen(true); }}
+                        disabled={isClosed}
+                        className="py-4 rounded-2xl bg-zinc-50 border border-zinc-100 text-zinc-900 font-black text-[10px] uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all flex flex-col items-center gap-1"
+                      >
+                        <span className="opacity-40">2</span>
+                        <span>{noLabel.slice(0, 3)}</span>
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-2 gap-4">
+                      <button 
+                        onClick={() => { setInitialOutcome(true); setIsBetModalOpen(true); }}
+                        disabled={isClosed}
+                        className="py-5 rounded-2xl bg-emerald-600 text-white font-black text-xs uppercase tracking-widest hover:bg-emerald-700 transition-all transform hover:scale-[1.02] active:scale-95 shadow-xl shadow-emerald-200 disabled:opacity-20 disabled:cursor-not-allowed disabled:transform-none"
+                      >
+                        {yesLabel}
+                      </button>
+                      <button 
+                        onClick={() => { setInitialOutcome(false); setIsBetModalOpen(true); }}
+                        disabled={isClosed}
+                        className="py-5 rounded-2xl bg-zinc-900 text-white font-black text-xs uppercase tracking-widest hover:bg-black transition-all transform hover:scale-[1.02] active:scale-95 shadow-xl shadow-zinc-200 disabled:opacity-20 disabled:cursor-not-allowed disabled:transform-none"
+                      >
+                        {noLabel}
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 <div className="pt-8 border-t border-zinc-100">

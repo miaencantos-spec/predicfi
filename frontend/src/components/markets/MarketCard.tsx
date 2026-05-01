@@ -10,6 +10,7 @@ import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface MarketCardProps {
   // Real data prop
@@ -88,6 +89,7 @@ export function MarketCard({
 
   // 2. Derive Values
   const displayTitle = isRealMarket ? (question as string || "Cargando...") : manualTitle;
+  // Limpiar etiquetas como [SUBJECT:XXX], [FORMAT:XXX], etc.
   const cleanTitle = displayTitle?.replace(/\[.*?\]\s*/g, '');
   
   const totalShares = (totalYesShares || 0n) + (totalNoShares || 0n);
@@ -103,6 +105,25 @@ export function MarketCard({
   const isClosed = (resolved as boolean) || isExpired;
   const endsIn = endTime ? formatDistanceToNow(Number(endTime) * 1000, { locale: es, addSuffix: true }) : '';
 
+  // Detectar labels personalizados para H2H
+  const h2hMatch = displayTitle?.match(/\[H2H:\s*(.*?)\s*vs\s*(.*?)\s*\]/i);
+  const derivedYesLabel = h2hMatch ? h2hMatch[1] : yesLabel;
+  const derivedNoLabel = h2hMatch ? h2hMatch[2] : noLabel;
+
+  // Detectar icono por sujeto
+  const subjectMatch = displayTitle?.match(/\[SUBJECT:\s*(.*?)\s*\]/i);
+  const derivedIcon = icon || (subjectMatch ? (subjectMatch[1].includes('BTC') ? '₿' : (subjectMatch[1].includes('ETH') ? '⟠' : (subjectMatch[1].includes('SOL') ? '◎' : '🎯'))) : '🎯');
+
+  const handleButtonClick = (e: React.MouseEvent, outcome: boolean) => {
+    if (!isRealMarket) {
+      e.preventDefault();
+      e.stopPropagation();
+      toast.info("Este es un mercado de demostración (mock).", {
+        description: "Prueba los 'Mercados Activos (Real)' para apostar de verdad."
+      });
+    }
+  };
+
   // 3. Render
   if (variant === 'classic') {
     const cardContent = (
@@ -113,7 +134,7 @@ export function MarketCard({
         {/* Header */}
         <div className="flex items-center gap-4 mb-6">
           <div className="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-2xl shadow-inner border border-zinc-100 group-hover:scale-110 transition-transform">
-            {icon || '🎯'}
+            {derivedIcon}
           </div>
           <h3 className="font-black text-zinc-900 text-lg leading-snug flex-1 tracking-tight line-clamp-2">
             {cleanTitle}
@@ -153,11 +174,19 @@ export function MarketCard({
           </div>
 
           <div className="grid grid-cols-2 gap-4 w-full">
-            <button disabled={isClosed} className={cn("py-4 rounded-2xl font-black text-sm uppercase tracking-widest border transition-all shadow-lg disabled:opacity-30", customYesStyle || "bg-emerald-50 text-emerald-600 border-emerald-100 hover:bg-emerald-500 hover:text-white shadow-emerald-50")}>
-              {yesLabel || "Yes"}
+            <button 
+              onClick={(e) => handleButtonClick(e, true)}
+              disabled={isClosed} 
+              className={cn("py-4 rounded-2xl font-black text-sm uppercase tracking-widest border transition-all shadow-lg disabled:opacity-30 px-2 line-clamp-1", customYesStyle || "bg-emerald-50 text-emerald-600 border-emerald-100 hover:bg-emerald-500 hover:text-white shadow-emerald-50")}
+            >
+              {derivedYesLabel || "Yes"}
             </button>
-            <button disabled={isClosed} className={cn("py-4 rounded-2xl font-black text-sm uppercase tracking-widest border transition-all shadow-lg disabled:opacity-30", customNoStyle || "bg-red-50 text-red-600 border-red-100 hover:bg-red-500 hover:text-white shadow-red-50")}>
-              {noLabel || "No"}
+            <button 
+              onClick={(e) => handleButtonClick(e, false)}
+              disabled={isClosed} 
+              className={cn("py-4 rounded-2xl font-black text-sm uppercase tracking-widest border transition-all shadow-lg disabled:opacity-30 px-2 line-clamp-1", customNoStyle || "bg-red-50 text-red-600 border-red-100 hover:bg-red-500 hover:text-white shadow-red-50")}
+            >
+              {derivedNoLabel || "No"}
             </button>
           </div>
         </div>
@@ -213,8 +242,18 @@ export function MarketCard({
             <div className="flex items-center gap-6">
               <span className="text-lg font-black text-zinc-900 font-mono tracking-tighter">{opt.chance}</span>
               <div className="flex gap-2">
-                <button className="w-12 h-12 rounded-xl bg-white border border-zinc-200 text-emerald-600 font-black text-xs hover:bg-emerald-500 hover:text-white hover:border-emerald-600 transition-all shadow-sm">Y</button>
-                <button className="w-12 h-12 rounded-xl bg-white border border-zinc-200 text-red-600 font-black text-xs hover:bg-red-500 hover:text-white hover:border-red-600 transition-all shadow-sm">N</button>
+                <button 
+                  onClick={(e) => handleButtonClick(e, true)}
+                  className="w-12 h-12 rounded-xl bg-white border border-zinc-200 text-emerald-600 font-black text-xs hover:bg-emerald-500 hover:text-white hover:border-emerald-600 transition-all shadow-sm"
+                >
+                  Y
+                </button>
+                <button 
+                  onClick={(e) => handleButtonClick(e, false)}
+                  className="w-12 h-12 rounded-xl bg-white border border-zinc-200 text-red-600 font-black text-xs hover:bg-red-500 hover:text-white hover:border-red-600 transition-all shadow-sm"
+                >
+                  N
+                </button>
               </div>
             </div>
           </div>

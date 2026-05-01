@@ -44,6 +44,7 @@ async function createMarketAndSync(question: string) {
     // Sincronizar con Supabase
     const { error } = await supabase.from('markets').insert({
         market_address: marketAddress.toLowerCase(),
+        creator_address: wallet.address.toLowerCase(),
         question: question,
         ends_at: new Date(endTime * 1000).toISOString(),
         status: 'active'

@@ -38,3 +38,10 @@ Almacena las predicciones "Gasless" de los usuarios.
 3. Gemini compara `results_json` contra todas las `predictions_json` de esa polla.
 4. El Oracle ejecuta `resolveTournament` en el contrato.
 5. El Oracle marca la polla como `resolved` en DB.
+
+---
+
+## 🔒 Seguridad (Row Level Security - RLS)
+A partir de la auditoría de seguridad v1.1, se ha habilitado RLS estricto en la base de datos de Supabase a través de `supabase/policies.sql`:
+- **Lectura**: Pública para todas las tablas (`markets`, `market_options`, `polla_vaults`, `bets`).
+- **Escritura (Insert/Update)**: Restringida a Creadores y Administradores autenticados, previniendo alteraciones no autorizadas por usuarios anónimos o maliciosos.

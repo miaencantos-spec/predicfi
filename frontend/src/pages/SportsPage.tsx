@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import MatchRow from '../components/markets/MatchRow';
 import TradeSlip from '../components/markets/TradeSlip';
