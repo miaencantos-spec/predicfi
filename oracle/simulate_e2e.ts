@@ -32,7 +32,7 @@ async function runE2ESimulation() {
   console.log("🚀 INICIANDO SIMULACIÓN E2E PREDICFI\n");
 
   // 1. CREAR MERCADO ON-CHAIN
-  const question = "¿Ganó el Bayern Munich al Arsenal en la Champions League el 17 de abril de 2024?";
+  const question = "[FORMAT:1X2] [1X2: Real Madrid vs BVB] Final de la Champions League 2024. ¿Ganó el Real Madrid?";
   const endTime = Math.floor(Date.now() / 1000) - 3600; // Finalizado hace 1 hora
 
   console.log(`📝 Paso 1: Creando mercado On-Chain...`);

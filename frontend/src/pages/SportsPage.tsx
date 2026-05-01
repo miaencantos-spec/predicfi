@@ -12,11 +12,11 @@ const SportsPage: React.FC = () => {
       {/* Main Content (Matches) */}
       <main className="flex-1 p-10">
         <header className="mb-10">
-            <div className="flex items-center gap-3 mb-2">
-                <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-600 text-[10px] font-black tracking-widest uppercase">Live Sports</span>
-            </div>
-            <h1 className="text-5xl font-black text-zinc-900 tracking-tighter">Copa Mundial ⚽</h1>
-            <p className="text-zinc-500 text-lg mt-2">Predice los resultados de los mejores partidos del mundo.</p>
+          <div className="flex items-center gap-3 mb-2">
+            <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-600 text-[10px] font-black tracking-widest uppercase">Live Sports</span>
+          </div>
+          <h1 className="text-5xl font-black text-zinc-900 tracking-tighter">Copa Mundial ⚽</h1>
+          <p className="text-zinc-500 text-lg mt-2">Predice los resultados de los mejores partidos del mundo.</p>
         </header>
 
         <div className="max-w-4xl">
@@ -30,7 +30,7 @@ const SportsPage: React.FC = () => {
             <div className="mb-10">
               <PollaVaultCard {...pollaVaultMock} />
             </div>
-            
+
             {mockMatches.map((match, idx) => (
               <MatchRow key={idx} {...match} />
             ))}
