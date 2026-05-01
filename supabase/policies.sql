@@ -1,8 +1,6 @@
 -- policies.sql
 -- Habilitar Row Level Security (RLS) en todas las tablas importantes
 ALTER TABLE markets ENABLE ROW LEVEL SECURITY;
-ALTER TABLE market_options ENABLE ROW LEVEL SECURITY;
-ALTER TABLE polla_vaults ENABLE ROW LEVEL SECURITY;
 ALTER TABLE bets ENABLE ROW LEVEL SECURITY;
 
 -- 1. Políticas para la tabla 'markets'
@@ -27,23 +25,7 @@ USING (
     true
 );
 
--- 2. Políticas para 'market_options'
-CREATE POLICY "Permitir lectura pública de market_options" 
-ON market_options FOR SELECT 
-USING (true);
 
-CREATE POLICY "Permitir inserción de options a creadores" 
-ON market_options FOR INSERT 
-WITH CHECK (true);
-
--- 3. Políticas para 'polla_vaults'
-CREATE POLICY "Permitir lectura pública de polla_vaults" 
-ON polla_vaults FOR SELECT 
-USING (true);
-
-CREATE POLICY "Permitir inserción de pollas a creadores" 
-ON polla_vaults FOR INSERT 
-WITH CHECK (true);
 
 -- 4. Políticas para 'bets'
 CREATE POLICY "Permitir lectura pública de apuestas" 
