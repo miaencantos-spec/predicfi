@@ -8,7 +8,7 @@ import { baseSepolia } from 'thirdweb/chains';
 import { USDC_ADDRESS } from '@/lib/constants';
 import { supabase } from '@/lib/supabase';
 import { toast } from 'sonner';
-import { ExternalLink, Trophy, Clock, Wallet, ArrowRight, BrainCircuit } from 'lucide-react';
+import { ExternalLink, Trophy, Clock, Wallet, ArrowRight, BrainCircuit, CheckCircle2, AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
@@ -48,6 +48,35 @@ export default function DashboardPage() {
     }
   }, [account?.address]);
 
+  // Offline Resolution Notification
+  useEffect(() => {
+    if (!isLoading && bets.length > 0) {
+      const lastCheck = localStorage.getItem('last_resolution_check');
+      const now = Date.now();
+      
+      const newlyResolved = bets.filter(bet => {
+        const resolvedAt = bet.markets?.resolved_at ? new Date(bet.markets.resolved_at).getTime() : 0;
+        return bet.markets?.status === 'resolved' && resolvedAt > (Number(lastCheck) || 0);
+      });
+
+      if (newlyResolved.length > 0) {
+        const winners = newlyResolved.filter(bet => bet.is_yes === bet.markets.outcome);
+
+        if (winners.length > 0) {
+          toast.success(`¡Felicidades! ${winners.length} de tus predicciones resultaron acertadas mientras no estabas. 🏆`, {
+            duration: 8000,
+            icon: <Trophy className="w-5 h-5 text-emerald-500" />
+          });
+        } else {
+          toast.info(`Se han resuelto ${newlyResolved.length} mercados. Revisa tu historial para ver los resultados.`, {
+            duration: 6000,
+          });
+        }
+      }
+      localStorage.setItem('last_resolution_check', now.toString());
+    }
+  }, [isLoading, bets]);
+
   async function fetchUserBets() {
     setIsLoading(true);
     try {
@@ -59,7 +88,8 @@ export default function DashboardPage() {
             question,
             status,
             outcome,
-            resolution_reason
+            resolution_reason,
+            resolved_at
           )
         `)
         .eq('user_address', account?.address?.toLowerCase())
@@ -106,7 +136,7 @@ export default function DashboardPage() {
     <div className="min-h-screen bg-white text-zinc-900 pb-20 md:pb-8">
       <main className="container mx-auto px-4 py-16">
         
-        {/* Hero Section - Matched with Home */}
+        {/* Hero Section */}
         <section className="mb-16 text-center md:text-left">
           <div className="flex items-center gap-2 mb-4 justify-center md:justify-start">
             <div className="h-[2px] w-8 bg-emerald-500" />
@@ -135,7 +165,7 @@ export default function DashboardPage() {
           </div>
         </section>
 
-        {/* Stats Grid - Standardized with Home style */}
+        {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           <StatCard 
             icon={Wallet} 
@@ -191,39 +221,82 @@ export default function DashboardPage() {
                 else if (h2hMatch) predictionLabel = bet.is_yes ? h2hMatch[1] : h2hMatch[2];
                 else if (match1X2) predictionLabel = bet.is_yes ? match1X2[1] : (bet.is_yes === false ? "Empate" : "SÍ");
 
+                let outcomeLabel = "";
+                if (isResolved) {
+                  outcomeLabel = marketData.outcome === true ? "SÍ" : "NO";
+                  if (h2hMatch) outcomeLabel = marketData.outcome ? h2hMatch[1] : h2hMatch[2];
+                  else if (match1X2) outcomeLabel = marketData.outcome === true ? match1X2[1] : (marketData.outcome === false ? "Empate" : match1X2[2]);
+                }
+
                 return (
-                  <div key={bet.id} className="bg-white p-8 rounded-[2rem] border border-zinc-200 flex flex-col md:flex-row md:items-center justify-between gap-6 group hover:border-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/5 transition-all">
+                  <div 
+                    key={bet.id} 
+                    className={cn(
+                      "p-8 rounded-[2rem] border flex flex-col md:flex-row md:items-center justify-between gap-6 group transition-all",
+                      !isResolved && "bg-white border-zinc-200 hover:border-emerald-500/30 hover:shadow-xl hover:shadow-emerald-500/5",
+                      isResolved && isWinner && "bg-emerald-50/50 border-emerald-100 shadow-sm",
+                      isResolved && !isWinner && "bg-zinc-50 border-zinc-200 opacity-80"
+                    )}
+                  >
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-4">
                         <span className={cn(
                           "text-[9px] font-mono font-bold uppercase px-3 py-1 rounded-full border",
                           isResolved
-                            ? "bg-zinc-100 text-zinc-500 border-zinc-200"
+                            ? "bg-zinc-900 text-white border-zinc-900"
                             : "bg-blue-50 text-blue-600 border-blue-100 animate-pulse"
                         )}>
                           {isResolved ? "COMPLETADO" : "EN MERCADO"}
                         </span>
+                        
+                        {isResolved && isWinner && (
+                          <span className="text-[9px] font-mono font-bold uppercase px-3 py-1 rounded-full border bg-emerald-500 text-white border-emerald-500 animate-bounce">
+                            ¡GANASTE!
+                          </span>
+                        )}
+
+                        {isResolved && !isWinner && (
+                          <span className="text-[9px] font-mono font-bold uppercase px-3 py-1 rounded-full border bg-zinc-200 text-zinc-500 border-zinc-300">
+                            PERDIDA
+                          </span>
+                        )}
+
                         <span className="text-[9px] font-mono font-bold uppercase px-3 py-1 rounded-full border bg-zinc-50 text-zinc-400 border-zinc-100">
                           {format}
                         </span>
                       </div>
+
                       <h4 className="text-lg font-bold text-zinc-900 mb-3 group-hover:text-emerald-600 transition-colors">
                         {displayQuestion}
                       </h4>
-                      {/* Predicción destacada DEBAJO de la pregunta */}
-                      <div className="flex items-center gap-2 mb-4">
-                        <span className="text-[10px] font-mono uppercase text-zinc-400 tracking-wider">
-                          {format === 'POLLA' ? 'Estado:' : 'Tu predicción:'}
-                        </span>
-                        <span className={cn(
-                          "text-xl font-black tracking-tight",
-                          bet.is_yes || format === 'POLLA'
-                            ? "text-emerald-600"
-                            : "text-red-500"
-                        )}>
-                          {predictionLabel}
-                        </span>
+                      
+                      <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mb-4">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] font-mono uppercase text-zinc-400 tracking-wider">
+                            {format === 'POLLA' ? 'Estado:' : 'Tu predicción:'}
+                          </span>
+                          <span className={cn(
+                            "text-lg font-black tracking-tight",
+                            bet.is_yes || format === 'POLLA'
+                              ? "text-emerald-600"
+                              : "text-red-500"
+                          )}>
+                            {predictionLabel}
+                          </span>
+                        </div>
+
+                        {isResolved && (
+                          <div className="flex items-center gap-2 border-l border-zinc-200 pl-6">
+                            <span className="text-[10px] font-mono uppercase text-zinc-400 tracking-wider">
+                              Resultado Real:
+                            </span>
+                            <span className="text-lg font-black tracking-tight text-zinc-900">
+                              {outcomeLabel}
+                            </span>
+                          </div>
+                        )}
                       </div>
+
                       <div className="flex items-center gap-4 text-[10px] font-mono text-zinc-400 uppercase tracking-tighter">
                         <span>{format === 'POLLA' ? 'Inscripción' : 'Inversión'}: {bet.amount} USDC</span>
                         <span className="w-1 h-1 rounded-full bg-zinc-200" />
@@ -233,23 +306,30 @@ export default function DashboardPage() {
 
                     <div className="flex items-center gap-6">
                       {isResolved && isWinner && !bet.claimed && (
-                        <button 
-                          onClick={() => handleClaim(bet.market_address)}
-                          className="bg-emerald-600 text-white font-bold text-[10px] tracking-widest uppercase px-8 py-3 rounded-full shadow-lg shadow-emerald-200 hover:bg-emerald-700 transition-all transform active:scale-95 flex items-center gap-2"
-                        >
-                          <Trophy className="w-3 h-3" />
-                          RECLAMAR
-                        </button>
+                        <div className="flex flex-col items-center gap-3">
+                          <div className="text-[10px] font-black text-emerald-600 animate-pulse flex items-center gap-1">
+                            <AlertCircle className="w-3 h-3" />
+                            PREMIO DISPONIBLE
+                          </div>
+                          <button 
+                            onClick={() => handleClaim(bet.market_address)}
+                            className="bg-emerald-600 text-white font-black text-[10px] tracking-widest uppercase px-8 py-4 rounded-full shadow-lg shadow-emerald-200 hover:bg-emerald-700 transition-all transform active:scale-95 flex items-center gap-2"
+                          >
+                            <Trophy className="w-4 h-4" />
+                            RECLAMAR GANANCIAS
+                          </button>
+                        </div>
                       )}
                       
                       {isResolved && !isWinner && (
-                        <div className="flex items-center gap-2 text-zinc-400 text-[10px] font-mono uppercase tracking-widest border border-zinc-200 px-6 py-3 rounded-full bg-zinc-50">
-                          Perdida
+                        <div className="text-zinc-400 text-[10px] font-mono uppercase tracking-widest bg-zinc-100 px-6 py-3 rounded-full border border-zinc-200">
+                          Sin Retorno
                         </div>
                       )}
 
                       {isResolved && isWinner && bet.claimed && (
-                        <div className="flex items-center gap-2 text-emerald-600 text-[10px] font-mono uppercase tracking-widest border border-emerald-200 px-6 py-3 rounded-full bg-emerald-50">
+                        <div className="flex items-center gap-2 text-emerald-600 text-[10px] font-mono uppercase tracking-widest border border-emerald-500/20 px-8 py-4 rounded-full bg-emerald-50/50 font-bold">
+                          <CheckCircle2 className="w-4 h-4" />
                           Liquidado
                         </div>
                       )}
@@ -257,19 +337,19 @@ export default function DashboardPage() {
                       <div className="flex gap-2">
                         <Link 
                           href={`/market/${bet.market_address}`}
-                          className="p-3 bg-zinc-50 rounded-xl text-zinc-400 hover:text-emerald-600 border border-zinc-100 transition-all"
+                          className="p-4 bg-white rounded-2xl text-zinc-400 hover:text-emerald-600 border border-zinc-200 shadow-sm transition-all hover:border-emerald-500/30"
                           title="Ver Mercado"
                         >
-                          <BrainCircuit className="w-4 h-4" />
+                          <BrainCircuit className="w-5 h-5" />
                         </Link>
                         <a 
                           href={`https://sepolia.basescan.org/tx/${bet.tx_hash}`} 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="p-3 bg-zinc-50 rounded-xl text-zinc-400 hover:text-emerald-600 border border-zinc-100 transition-all"
+                          className="p-4 bg-white rounded-2xl text-zinc-400 hover:text-emerald-600 border border-zinc-200 shadow-sm transition-all hover:border-emerald-500/30"
                           title="Ver Transacción"
                         >
-                          <ExternalLink className="w-4 h-4" />
+                          <ExternalLink className="w-5 h-5" />
                         </a>
                       </div>
                     </div>

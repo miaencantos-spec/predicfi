@@ -11,6 +11,7 @@ import { USDC_ADDRESS } from "@/lib/constants";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
 import { Check, Loader2 } from "lucide-react";
+import confetti from 'canvas-confetti';
 
 interface BetModalProps {
   isOpen: boolean;
@@ -140,6 +141,16 @@ export function BetModal({ isOpen, onClose, marketAddress, question, initialOutc
     sendTransaction(tx, {
       onSuccess: async (result) => {
         await saveBetToSupabase(result.transactionHash);
+        
+        // 🎉 Trigger Confetti!
+        confetti({
+          particleCount: 150,
+          spread: 70,
+          origin: { y: 0.6 },
+          zIndex: 200,
+          colors: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#ffffff']
+        });
+
         toast.success(format === 'POLLA' ? "🎉 ¡Te has unido a la polla!" : "🎉 ¡Apuesta realizada!");
         setStep('done');
         onBetSuccess?.();
@@ -149,7 +160,7 @@ export function BetModal({ isOpen, onClose, marketAddress, question, initialOutc
           if (format === 'POLLA') {
             router.push(`/vault/${marketAddress}/predict`);
           }
-        }, 1500);
+        }, 2000);
       },
       onError: (err: any) => {
         console.error(err);
