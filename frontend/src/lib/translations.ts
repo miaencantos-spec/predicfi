@@ -2,12 +2,12 @@ export const translations = {
   es: {
     nav: {
       home: "Inicio",
-      dashboard: "Dashboard",
+      dashboard: "Panel de Control",
       create: "Crear",
-      admin: "Admin",
+      admin: "Administración",
       trending: "Tendencias",
       search: "Buscar mercados...",
-      connect: "Conectar"
+      connect: "Conectar Billetera"
     },
     home: {
       heroTitle: "Predice el futuro",

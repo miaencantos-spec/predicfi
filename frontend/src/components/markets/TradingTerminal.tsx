@@ -14,7 +14,7 @@ interface TradingTerminalProps {
   isResolved: boolean;
   canClaim: boolean;
   setIsBetModalOpen: (open: boolean) => void;
-  setInitialOutcome: (outcome: boolean | null) => void;
+  setInitialOutcome: (outcome: boolean | string | null) => void;
   isPrivate?: boolean;
   hasAccess?: boolean;
 }
@@ -112,7 +112,7 @@ export function TradingTerminal({
           ) : format === '1X2' ? (
             <div className="grid grid-cols-3 gap-3">
               <button 
-                onClick={() => { setInitialOutcome(true); setIsBetModalOpen(true); }}
+                onClick={() => { setInitialOutcome('1'); setIsBetModalOpen(true); }}
                 disabled={isClosed}
                 className="py-4 rounded-2xl bg-zinc-50 border border-zinc-100 text-zinc-900 font-black text-[10px] uppercase tracking-widest hover:bg-emerald-500 hover:text-white transition-all flex flex-col items-center gap-1"
               >
@@ -120,7 +120,7 @@ export function TradingTerminal({
                 <span>{yesLabel.slice(0, 3)}</span>
               </button>
               <button 
-                onClick={() => { setInitialOutcome(false); setIsBetModalOpen(true); }}
+                onClick={() => { setInitialOutcome('X'); setIsBetModalOpen(true); }}
                 disabled={isClosed}
                 className="py-4 rounded-2xl bg-zinc-50 border border-zinc-100 text-zinc-900 font-black text-[10px] uppercase tracking-widest hover:bg-zinc-900 hover:text-white transition-all flex flex-col items-center gap-1"
               >
@@ -128,7 +128,7 @@ export function TradingTerminal({
                 <span>EMP</span>
               </button>
               <button 
-                onClick={() => { setInitialOutcome(false); setIsBetModalOpen(true); }}
+                onClick={() => { setInitialOutcome('2'); setIsBetModalOpen(true); }}
                 disabled={isClosed}
                 className="py-4 rounded-2xl bg-zinc-50 border border-zinc-100 text-zinc-900 font-black text-[10px] uppercase tracking-widest hover:bg-red-500 hover:text-white transition-all flex flex-col items-center gap-1"
               >

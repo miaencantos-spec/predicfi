@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Modal } from "../ui/Modal";
 import { client } from "@/providers/web3-provider";
 import { baseSepolia } from "thirdweb/chains";
@@ -16,17 +17,18 @@ interface BetModalProps {
   onClose: () => void;
   marketAddress: string;
   question: string;
-  initialOutcome?: boolean | null;
+  initialOutcome?: boolean | string | null;
   onBetSuccess?: () => void;
 }
 
 type Step = 'form' | 'approving' | 'approved' | 'betting' | 'done';
 
 export function BetModal({ isOpen, onClose, marketAddress, question, initialOutcome = null, onBetSuccess }: BetModalProps) {
+  const router = useRouter();
   const account = useActiveAccount();
   const { mutate: sendTransaction, isPending } = useSendTransaction();
   const [amount, setAmount] = useState("");
-  const [outcome, setOutcome] = useState<boolean | null>(initialOutcome);
+  const [outcome, setOutcome] = useState<boolean | string | null>(initialOutcome);
   const [step, setStep] = useState<Step>('form');
 
   const displayQuestion = question ? (question as string).replace(/\[.*?\]\s*/g, '') : "Cargando...";
@@ -73,10 +75,12 @@ export function BetModal({ isOpen, onClose, marketAddress, question, initialOutc
   const saveBetToSupabase = async (txHash: string) => {
     if (!account?.address) return;
     // Si es polla, guardar en tabla de pollas (si existiera) o como apuesta especial
+    const isYes = typeof outcome === 'boolean' ? outcome : (outcome === '1');
     const { error } = await supabase.from('bets').insert({
       market_address: marketAddress.toLowerCase(),
       user_address: account.address.toLowerCase(),
-      is_yes: outcome ?? true,
+      is_yes: isYes,
+      selected_option: typeof outcome === 'string' ? outcome : (isYes ? 'YES' : 'NO'),
       amount: parseFloat(amount),
       tx_hash: txHash,
       claimed: false,
@@ -120,6 +124,7 @@ export function BetModal({ isOpen, onClose, marketAddress, question, initialOutc
     if (format !== 'POLLA' && outcome === null) return toast.error("Selecciona una opción");
     setStep('betting');
 
+    const onChainOutcome = typeof outcome === 'boolean' ? outcome : (outcome === '1');
     const tx = format === 'POLLA' 
       ? prepareContractCall({
           contract: marketContract,
@@ -129,7 +134,7 @@ export function BetModal({ isOpen, onClose, marketAddress, question, initialOutc
       : prepareContractCall({
           contract: marketContract,
           method: "function buyShares(bool _outcome, uint256 _amount)",
-          params: [outcome!, amountWei],
+          params: [onChainOutcome, amountWei],
         });
 
     sendTransaction(tx, {
@@ -138,7 +143,13 @@ export function BetModal({ isOpen, onClose, marketAddress, question, initialOutc
         toast.success(format === 'POLLA' ? "🎉 ¡Te has unido a la polla!" : "🎉 ¡Apuesta realizada!");
         setStep('done');
         onBetSuccess?.();
-        setTimeout(() => { setStep('form'); onClose(); }, 1500);
+        setTimeout(() => { 
+          setStep('form'); 
+          onClose(); 
+          if (format === 'POLLA') {
+            router.push(`/vault/${marketAddress}/predict`);
+          }
+        }, 1500);
       },
       onError: (err: any) => {
         console.error(err);
@@ -159,8 +170,32 @@ export function BetModal({ isOpen, onClose, marketAddress, question, initialOutc
       <div className="space-y-6">
         <p className="font-bold text-lg text-zinc-900 leading-tight">{displayQuestion}</p>
 
-        {/* SÍ / NO (Ocultar si es POLLA) */}
-        {format !== 'POLLA' && (
+        {/* SÍ / NO / 1X2 (Ocultar si es POLLA) */}
+        {format === '1X2' && (
+          <div className="grid grid-cols-3 gap-3">
+            {[
+              { val: '1', label: yesLabel, color: 'emerald' },
+              { val: 'X', label: 'Empate', color: 'zinc' },
+              { val: '2', label: noLabel, color: 'red' }
+            ].map((opt) => (
+              <button
+                key={opt.val}
+                onClick={() => setOutcome(opt.val)}
+                disabled={isLocked}
+                className={`py-4 flex flex-col items-center justify-center rounded-2xl font-black border-2 transition-all disabled:opacity-50 ${
+                  outcome === opt.val
+                    ? `border-${opt.color}-500 bg-${opt.color}-50 text-${opt.color}-600`
+                    : 'border-zinc-100 text-zinc-400'
+                }`}
+              >
+                <span className="text-xl">{opt.val}</span>
+                <span className="text-[10px] uppercase tracking-widest truncate w-full px-2">{opt.label}</span>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {format !== 'POLLA' && format !== '1X2' && (
           <div className="grid grid-cols-2 gap-4">
             {[true, false].map((val) => (
               <button

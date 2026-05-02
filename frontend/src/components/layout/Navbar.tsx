@@ -162,7 +162,7 @@ export default function Navbar({ userEmail }: { userEmail?: string }) {
                 "text-sm font-bold transition-colors hidden sm:block px-3 py-1.5 rounded-lg border",
                 pathname === '/create' ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'text-zinc-600 border-zinc-200 hover:bg-zinc-50'
               )}>
-                {isAdmin ? 'Crear Mercado' : 'Crear Polla'}
+                {isAdmin ? 'Crear Mercado' : t.nav.create}
               </Link>
 
               {isAdmin && (
@@ -170,7 +170,7 @@ export default function Navbar({ userEmail }: { userEmail?: string }) {
                   "text-sm font-bold transition-colors px-3 py-1 bg-zinc-900 text-white rounded-lg hover:bg-emerald-600",
                   pathname === '/admin' ? 'bg-emerald-600' : ''
                 )}>
-                  ADMIN
+                  {t.nav.admin.toUpperCase()}
                 </Link>
               )}
             </div>
