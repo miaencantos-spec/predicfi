@@ -44,7 +44,7 @@ export function useMarketCreation() {
 
   const [isPending, setIsPending] = useState(false);
   const [isValidating, setIsValidating] = useState(false);
-  const [aiFeedback, setAiFeedback] = useState<{ valid: boolean; reason: string; improved_question?: string } | null>(null);
+  const [aiFeedback, setAiFeedback] = useState<{ isValid: boolean; reason: string; correctedQuestion?: string } | null>(null);
 
   useEffect(() => {
     if (marketFormat === 'POLLA' && pollaData.type === 'TEMPLATE') {
@@ -82,24 +82,25 @@ export function useMarketCreation() {
       Cualquier evento propuesto debe ser POSTERIOR a esta fecha y hora.
       
       TAREA: Evalúa si la siguiente propuesta de mercado tiene sentido y está bien estructurada: "${formattedQuestion}"
+      Si el mercado es válido, corrige automáticamente cualquier error ortográfico, gramatical o de redacción en la pregunta para que suene profesional y objetiva. Devuelve la versión pulida en "correctedQuestion". Si es inválido, explica el porqué en "reason".
       
       Responde ÚNICAMENTE con este JSON:
       {
-        "valid": boolean, 
-        "improved_question": "Sugerencia mejorada si aplica, o la misma",
-        "reason": "Explicación breve"
+        "isValid": boolean, 
+        "correctedQuestion": "string",
+        "reason": "string"
       }`;
 
       const result = await model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
-      const jsonStr = text.match(/\{.*\}/s)?.[0] || '{"valid": false, "reason": "Error en formato de respuesta IA"}';
+      const jsonStr = text.match(/\{.*\}/s)?.[0] || '{"isValid": false, "reason": "Error en formato de respuesta IA"}';
       const data = JSON.parse(jsonStr);
       setAiFeedback(data);
       return data;
     } catch (error) {
       console.error("AI Validation error:", error);
-      const fallback = { valid: false, reason: "⚠️ Oráculo saturado o inactivo. La validación falló.", improved_question: formattedQuestion };
+      const fallback = { isValid: false, reason: "⚠️ Oráculo saturado o inactivo. La validación falló.", correctedQuestion: formattedQuestion };
       setAiFeedback(fallback);
       return fallback;
     } finally {
@@ -126,9 +127,12 @@ export function useMarketCreation() {
 
     const formattedQuestion = getFormattedQuestion();
     const aiCheck = await validateWithAI(formattedQuestion);
-    if (!aiCheck.valid && !aiCheck.improved_question) return;
+    if (!aiCheck.isValid) {
+      toast.error(`❌ Mercado Rechazado: ${aiCheck.reason || 'Corrige los errores antes de continuar.'}`, { duration: 15000 });
+      return;
+    }
 
-    const finalQuestion = aiCheck.improved_question || formattedQuestion;
+    const finalQuestion = aiCheck.correctedQuestion || formattedQuestion;
 
     setIsPending(true);
     try {
