@@ -6,7 +6,7 @@ function isValidAddress(addr: string): addr is `0x${string}` {
   return /^0x[0-9a-fA-F]{40}$/.test(addr);
 }
 
-export function useMarketDetail(marketAddress: string) {
+export function useMarketDetail(marketAddress: string, refreshKey = 0) {
   const [market, setMarket] = useState<Market | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [recentBets, setRecentBets] = useState<any[]>([]);
@@ -45,7 +45,7 @@ export function useMarketDetail(marketAddress: string) {
     }
 
     fetchMarket();
-  }, [marketAddress]);
+  }, [marketAddress, refreshKey]);
 
   return { market, isLoading, recentBets };
 }

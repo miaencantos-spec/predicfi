@@ -17,11 +17,12 @@ export default function MarketDetailPage() {
   const { address } = useParams();
   const marketAddress = typeof address === 'string' ? address : '';
   
-  const { market, isLoading, recentBets } = useMarketDetail(marketAddress);
-  const marketData = useMarketData(market);
-
   const [isBetModalOpen, setIsBetModalOpen] = useState(false);
   const [initialOutcome, setInitialOutcome] = useState<boolean | null>(null);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const { market, isLoading, recentBets } = useMarketDetail(marketAddress, refreshKey);
+  const marketData = useMarketData(market);
 
   if (isLoading) {
     return (
@@ -100,6 +101,7 @@ export default function MarketDetailPage() {
         marketAddress={marketAddress}
         question={market.question}
         initialOutcome={initialOutcome}
+        onBetSuccess={() => setRefreshKey(k => k + 1)}
       />
     </div>
   );

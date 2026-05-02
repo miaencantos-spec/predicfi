@@ -4,5 +4,8 @@
   "description": "PredicFi - AI Prediction Market on Base",
   "scripts": {
     "prepare-deploy": "cd contracts && forge build && cd ../frontend && npx tsc --noEmit"
+  },
+  "devDependencies": {
+    "tailwindcss": "^4.2.4"
   }
 }

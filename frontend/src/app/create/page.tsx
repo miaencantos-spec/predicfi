@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+
 import Link from 'next/link';
 import { useAdminStatus } from '@/hooks/useAdminStatus';
 import { useMarketCreation } from '@/hooks/useMarketCreation';
@@ -27,16 +29,18 @@ export default function CreateMarketPage() {
     addMultiOption
   } = useMarketCreation();
 
+  useEffect(() => {
+    if (isAdmin === false && marketFormat !== 'POLLA') {
+      setMarketFormat('POLLA');
+    }
+  }, [isAdmin, marketFormat, setMarketFormat]);
+
   if (isAdmin === null) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-emerald-500" />
       </div>
     );
-  }
-
-  if (!isAdmin) {
-    return <AdminRestricted />;
   }
 
   return (
@@ -50,18 +54,24 @@ export default function CreateMarketPage() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
               <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight text-zinc-900 mb-4">
-                Proponer <span className="text-emerald-600 italic">Mercado</span>
+                Proponer <span className="text-emerald-600 italic">{isAdmin ? 'Mercado' : 'Polla'}</span>
               </h2>
             </div>
-            <Link href="/admin" className="group flex items-center gap-3 bg-zinc-50 border border-zinc-200 text-zinc-600 px-8 py-4 rounded-2xl hover:bg-white hover:text-emerald-600 transition-all shadow-sm">
-              <span className="text-xs font-bold uppercase tracking-widest">Volver a Admin</span>
-            </Link>
+            {isAdmin && (
+              <Link href="/admin" className="group flex items-center gap-3 bg-zinc-50 border border-zinc-200 text-zinc-600 px-8 py-4 rounded-2xl hover:bg-white hover:text-emerald-600 transition-all shadow-sm">
+                <span className="text-xs font-bold uppercase tracking-widest">Volver a Admin</span>
+              </Link>
+            )}
           </div>
         </section>
 
         <form onSubmit={handleCreate} className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
           <div className="lg:col-span-7 space-y-8">
-            <MarketFormatSelector marketFormat={marketFormat} setMarketFormat={setMarketFormat} />
+            <MarketFormatSelector 
+              marketFormat={marketFormat} 
+              setMarketFormat={setMarketFormat} 
+              allowedFormats={isAdmin ? ['BINARY', '1X2', 'POLLA', 'MULTI', 'H2H'] : ['POLLA']}
+            />
             
             <MarketFields 
               marketFormat={marketFormat}

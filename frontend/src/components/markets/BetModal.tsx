@@ -17,11 +17,12 @@ interface BetModalProps {
   marketAddress: string;
   question: string;
   initialOutcome?: boolean | null;
+  onBetSuccess?: () => void;
 }
 
 type Step = 'form' | 'approving' | 'approved' | 'betting' | 'done';
 
-export function BetModal({ isOpen, onClose, marketAddress, question, initialOutcome = null }: BetModalProps) {
+export function BetModal({ isOpen, onClose, marketAddress, question, initialOutcome = null, onBetSuccess }: BetModalProps) {
   const account = useActiveAccount();
   const { mutate: sendTransaction, isPending } = useSendTransaction();
   const [amount, setAmount] = useState("");
@@ -136,6 +137,7 @@ export function BetModal({ isOpen, onClose, marketAddress, question, initialOutc
         await saveBetToSupabase(result.transactionHash);
         toast.success(format === 'POLLA' ? "🎉 ¡Te has unido a la polla!" : "🎉 ¡Apuesta realizada!");
         setStep('done');
+        onBetSuccess?.();
         setTimeout(() => { setStep('form'); onClose(); }, 1500);
       },
       onError: (err: any) => {

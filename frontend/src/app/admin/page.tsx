@@ -91,14 +91,16 @@ export default function AdminDashboard() {
 
       setMarkets(data || []);
       
-      const pending = data.filter(m => m.status === 'pending_moderation');
-      const disputed = data.filter(m => m.status === 'resolved' && (new Date().getTime() - new Date(m.resolved_at).getTime() < 24 * 60 * 60 * 1000));
+      const now = new Date().toISOString();
+      const pending  = data.filter((m: any) => m.status === 'pending_moderation');
+      const disputed = data.filter((m: any) => m.status === 'resolved' && (new Date().getTime() - new Date(m.resolved_at).getTime() < 24 * 60 * 60 * 1000));
 
       setStats({
         totalMarkets: data.length,
-        activeMarkets: data.filter(m => m.status === 'active').length,
+        // FIX 3: misma lógica que Home — activo + no expirado
+        activeMarkets: data.filter((m: any) => m.status === 'active' && m.ends_at > now).length,
         pendingModeration: pending.length,
-        totalVolume: data.reduce((acc, m) => acc + (parseFloat(m.volume) || 0), 0),
+        totalVolume: data.reduce((acc: number, m: any) => acc + (parseFloat(m.volume) || 0), 0),
         disputedMarkets: disputed.length
       });
     } catch (err) {
@@ -203,7 +205,15 @@ export default function AdminDashboard() {
                           <span className="text-[10px] font-mono text-zinc-300">ID: {market.id?.slice(0,8) || 'N/A'}</span>
                         </div>
                         <h4 className="text-lg font-bold text-zinc-900 group-hover:text-emerald-600 transition-colors leading-tight">
-                          {market.question}
+                          {/* FIX 5: safe render — extrae string, evita JSON crudo */}
+                          {typeof market.question === 'string'
+                            ? market.question.replace(/\[.*?\]\s*/g, '').trim() || 'Sin título'
+                            : typeof market.question === 'object' && market.question !== null
+                              ? ((market.question as any)?.question ||
+                                 (market.question as any)?.title ||
+                                 JSON.stringify(market.question)).replace(/\[.*?\]\s*/g, '').trim()
+                              : 'Sin título'
+                          }
                         </h4>
                       </div>
 
@@ -282,6 +292,9 @@ export default function AdminDashboard() {
 
           </div>
 
+          {/* FIX 6: Distribución por Formato */}
+          <FormatBreakdown markets={markets} />
+
         </div>
       </main>
     </div>
@@ -302,3 +315,57 @@ function AdminStatCard({ icon: Icon, label, value }: { icon: any, label: string,
     </div>
   );
 }
+
+// FIX 6: Distribución de mercados por formato
+const FORMAT_CONFIG = [
+  { key: 'POLLA',  label: 'Polla Vault', color: 'bg-emerald-500', light: 'text-emerald-600' },
+  { key: 'BINARY', label: 'Binario',     color: 'bg-blue-500',    light: 'text-blue-600'    },
+  { key: '1X2',    label: '1X2 Fútbol',  color: 'bg-yellow-500',  light: 'text-yellow-600'  },
+  { key: 'MULTI',  label: 'Multi-Nivel', color: 'bg-purple-500',  light: 'text-purple-600'  },
+  { key: 'H2H',    label: 'Cara a Cara', color: 'bg-red-500',     light: 'text-red-600'     },
+];
+
+function FormatBreakdown({ markets }: { markets: any[] }) {
+  const counts = FORMAT_CONFIG.map(f => ({
+    ...f,
+    count: markets.filter(m => {
+      const q = typeof m.question === 'string' ? m.question : JSON.stringify(m.question);
+      return q?.includes(`[FORMAT:${f.key}]`);
+    }).length,
+  }));
+
+  const maxCount = Math.max(...counts.map(f => f.count), 1);
+
+  return (
+    <div className="bg-white border border-zinc-200 rounded-[3rem] p-10 space-y-8 shadow-sm">
+      <div className="flex items-center gap-3">
+        <div className="p-3 bg-zinc-50 rounded-2xl border border-zinc-100">
+          <BarChart3 className="w-6 h-6 text-zinc-400" />
+        </div>
+        <h3 className="text-xs font-bold text-zinc-900 uppercase tracking-widest">Distribución_Formatos</h3>
+      </div>
+
+      <div className="space-y-5">
+        {counts.map(f => (
+          <div key={f.key}>
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-500">{f.label}</span>
+              <span className={`text-[10px] font-black font-mono ${f.light}`}>{f.count}</span>
+            </div>
+            <div className="h-2 w-full bg-zinc-100 rounded-full overflow-hidden">
+              <div
+                className={`h-full ${f.color} rounded-full transition-all duration-700`}
+                style={{ width: `${(f.count / maxCount) * 100}%` }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p className="text-[10px] font-mono text-zinc-300 uppercase tracking-widest">
+        Total: {markets.length} mercado{markets.length !== 1 ? 's' : ''}
+      </p>
+    </div>
+  );
+}
+

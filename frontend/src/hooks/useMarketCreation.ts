@@ -25,7 +25,18 @@ export function useMarketCreation() {
   // Format specific states
   const [binaryData, setBinaryData] = useState({ question: '', yesLabel: 'SÍ', noLabel: 'NO' });
   const [match1x2Data, setMatch1x2Data] = useState({ matchTitle: '', homeTeam: '', awayTeam: '' });
-  const [pollaData, setPollaData] = useState({ vaultTitle: '', groupName: '', entryFee: '10', maxParticipants: '15' });
+  const [pollaData, setPollaData] = useState({ 
+    type: 'TEMPLATE', 
+    templateId: 'worldcup2026', 
+    customLeagueName: '', 
+    numTeams: '16', 
+    rounds: '15', 
+    referenceUrl: '', 
+    vaultTitle: '', 
+    groupName: '', 
+    entryFee: '10', 
+    maxParticipants: '15' 
+  });
   const [multiData, setMultiData] = useState({ question: '', options: ['Opción A', 'Opción B', 'Opción C'] });
   const [h2hData, setH2hData] = useState({ matchTitle: '', optionA: '', optionB: '' });
 
@@ -37,7 +48,9 @@ export function useMarketCreation() {
     switch (marketFormat) {
       case 'BINARY': return `[FORMAT:BINARY] ${binaryData.question}`;
       case '1X2': return `[FORMAT:1X2] [1X2: ${match1x2Data.homeTeam} vs ${match1x2Data.awayTeam}] ${match1x2Data.matchTitle}`;
-      case 'POLLA': return `[FORMAT:POLLA] ${pollaData.vaultTitle} (${pollaData.groupName})`;
+      case 'POLLA': 
+        const leagueName = pollaData.type === 'TEMPLATE' ? 'Plantilla Oficial' : pollaData.customLeagueName;
+        return `[FORMAT:POLLA] [LEAGUE:${leagueName}] ${pollaData.vaultTitle} (${pollaData.groupName})`;
       case 'MULTI': return `[FORMAT:MULTI] [OPTIONS: ${multiData.options.filter(o => o.trim() !== '').join(', ')}] ${multiData.question}`;
       case 'H2H': return `[FORMAT:H2H] [H2H: ${h2hData.optionA} vs ${h2hData.optionB}] ${h2hData.matchTitle}`;
     }

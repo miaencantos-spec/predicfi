@@ -223,15 +223,15 @@ export function MarketCard({
   }
 
   // Multi-variant
-  return (
-    <div className="bg-white rounded-[2rem] p-8 border border-zinc-200 shadow-sm hover:shadow-xl hover:shadow-blue-500/5 transition-all flex flex-col group">
+  const multiContent = (
+    <div className="bg-white rounded-[2rem] p-8 border border-zinc-200 shadow-sm hover:shadow-xl hover:shadow-blue-500/5 transition-all flex flex-col group h-full">
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-2 text-[10px] font-black text-emerald-500 uppercase tracking-widest mb-3 bg-emerald-50 w-fit px-3 py-1 rounded-full">
           <Activity size={12} />
           <span>Multi-Level Market</span>
         </div>
-        <h3 className="font-black text-zinc-900 text-2xl leading-tight tracking-tight">{displayTitle}</h3>
+        <h3 className="font-black text-zinc-900 text-2xl leading-tight tracking-tight">{cleanTitle}</h3>
       </div>
 
       {/* Body */}
@@ -270,6 +270,19 @@ export function MarketCard({
           <span>{displayVolume}</span>
         </div>
       </div>
+      
+      {isRealMarket && (
+        <div className="mt-4 pt-4 border-t border-zinc-50 text-[10px] uppercase tracking-widest text-zinc-300 group-hover:text-emerald-500 transition-colors flex justify-between items-center">
+          <span>{resolved ? 'MERCADO RESUELTO' : (isExpired ? 'PROCESANDO IA' : `EXPIRA ${endsIn}`)}</span>
+          <ArrowRight size={12} />
+        </div>
+      )}
     </div>
   );
+
+  return isRealMarket ? (
+    <Link href={`/market/${address}`} className="block h-full">
+      {multiContent}
+    </Link>
+  ) : multiContent;
 }

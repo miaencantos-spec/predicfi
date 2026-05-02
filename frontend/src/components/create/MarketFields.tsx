@@ -6,8 +6,8 @@ interface MarketFieldsProps {
   setBinaryData: (data: { question: string; yesLabel: string; noLabel: string }) => void;
   match1x2Data: { matchTitle: string; homeTeam: string; awayTeam: string };
   setMatch1x2Data: (data: { matchTitle: string; homeTeam: string; awayTeam: string }) => void;
-  pollaData: { vaultTitle: string; groupName: string; entryFee: string; maxParticipants: string };
-  setPollaData: (data: { vaultTitle: string; groupName: string; entryFee: string; maxParticipants: string }) => void;
+  pollaData: { type: string; templateId: string; customLeagueName: string; numTeams: string; rounds: string; referenceUrl: string; vaultTitle: string; groupName: string; entryFee: string; maxParticipants: string };
+  setPollaData: (data: { type: string; templateId: string; customLeagueName: string; numTeams: string; rounds: string; referenceUrl: string; vaultTitle: string; groupName: string; entryFee: string; maxParticipants: string }) => void;
   multiData: { question: string; options: string[] };
   setMultiData?: (data: { question: string; options: string[] }) => void;
   handleUpdateMultiOption: (index: number, value: string) => void;
@@ -69,26 +69,89 @@ export function MarketFields({
       )}
 
       {marketFormat === 'POLLA' && (
-        <>
+        <div className="space-y-8">
+          {/* Selector de Modo */}
           <div>
-            <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Nombre de la Bóveda</label>
-            <input type="text" placeholder="Ej: Mundialistas Pro" className="w-full p-4 rounded-xl border border-zinc-200 font-medium" value={pollaData.vaultTitle} onChange={e => setPollaData({ ...pollaData, vaultTitle: e.target.value })} />
+            <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-3">Modo de Creación</label>
+            <div className="grid grid-cols-2 gap-4">
+              <button 
+                type="button"
+                onClick={() => setPollaData({ ...pollaData, type: 'TEMPLATE' })}
+                className={`py-4 rounded-xl border-2 font-black text-xs uppercase tracking-widest transition-all ${pollaData.type === 'TEMPLATE' ? 'border-emerald-500 bg-emerald-50 text-emerald-700' : 'border-zinc-100 text-zinc-400 hover:border-zinc-200'}`}
+              >
+                Plantilla Global
+              </button>
+              <button 
+                type="button"
+                onClick={() => setPollaData({ ...pollaData, type: 'CUSTOM' })}
+                className={`py-4 rounded-xl border-2 font-black text-xs uppercase tracking-widest transition-all ${pollaData.type === 'CUSTOM' ? 'border-indigo-500 bg-indigo-50 text-indigo-700' : 'border-zinc-100 text-zinc-400 hover:border-zinc-200'}`}
+              >
+                Torneo Personalizado
+              </button>
+            </div>
           </div>
-          <div>
-            <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Nombre del Grupo/Empresa</label>
-            <input type="text" placeholder="Ej: Oficina Central" className="w-full p-4 rounded-xl border border-zinc-200 font-medium" value={pollaData.groupName} onChange={e => setPollaData({ ...pollaData, groupName: e.target.value })} />
+
+          <div className="p-6 bg-zinc-50 rounded-2xl border border-zinc-100 space-y-6">
+            {pollaData.type === 'TEMPLATE' ? (
+              <div>
+                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Seleccionar Torneo Oficial</label>
+                <select 
+                  className="w-full p-4 rounded-xl border border-zinc-200 font-bold text-zinc-900 bg-white"
+                  value={pollaData.templateId}
+                  onChange={e => setPollaData({ ...pollaData, templateId: e.target.value })}
+                >
+                  <option value="worldcup2026">FIFA World Cup 2026</option>
+                  <option value="champions2025">UEFA Champions League 2025/26</option>
+                  <option value="copaamerica2028">Copa América 2028</option>
+                </select>
+                <p className="mt-2 text-xs text-zinc-500">Los partidos y fechas se sincronizarán automáticamente desde la plantilla oficial.</p>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Nombre de la Liga Local</label>
+                  <input type="text" placeholder="Ej: Torneo Intercolegial F-11" className="w-full p-4 rounded-xl border border-zinc-200 font-medium bg-white" value={pollaData.customLeagueName} onChange={e => setPollaData({ ...pollaData, customLeagueName: e.target.value })} />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Nº de Equipos</label>
+                    <input type="number" placeholder="Ej: 16" className="w-full p-4 rounded-xl border border-zinc-200 font-bold bg-white" value={pollaData.numTeams} onChange={e => setPollaData({ ...pollaData, numTeams: e.target.value })} />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Nº de Rondas</label>
+                    <input type="number" placeholder="Ej: 15" className="w-full p-4 rounded-xl border border-zinc-200 font-bold bg-white" value={pollaData.rounds} onChange={e => setPollaData({ ...pollaData, rounds: e.target.value })} />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">URL de Referencia (Para Validación IA) - Opcional</label>
+                  <input type="url" placeholder="Ej: https://resultados-amateur.com/liga-bogota" className="w-full p-4 rounded-xl border border-zinc-200 font-medium bg-white text-blue-600" value={pollaData.referenceUrl} onChange={e => setPollaData({ ...pollaData, referenceUrl: e.target.value })} />
+                  <p className="mt-2 text-[10px] text-zinc-400">Si se proporciona, Gemini intentará validar los resultados automáticamente desde esta web.</p>
+                </div>
+              </div>
+            )}
           </div>
-          <div className="grid grid-cols-2 gap-4">
+
+          <div className="pt-4 border-t border-zinc-100 space-y-6">
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Entry Fee (USDC)</label>
-              <input type="number" className="w-full p-4 rounded-xl border border-zinc-200 font-bold text-blue-600" value={pollaData.entryFee} onChange={e => setPollaData({ ...pollaData, entryFee: e.target.value })} />
+              <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Título de tu Bóveda (Polla)</label>
+              <input type="text" placeholder="Ej: La Polla de la Oficina" className="w-full p-4 rounded-xl border border-zinc-200 font-medium" value={pollaData.vaultTitle} onChange={e => setPollaData({ ...pollaData, vaultTitle: e.target.value })} />
             </div>
             <div>
-              <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Máx. Participantes</label>
-              <input type="number" className="w-full p-4 rounded-xl border border-zinc-200 font-bold" value={pollaData.maxParticipants} onChange={e => setPollaData({ ...pollaData, maxParticipants: e.target.value })} />
+              <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Nombre del Grupo / Empresa</label>
+              <input type="text" placeholder="Ej: TechCorp S.A." className="w-full p-4 rounded-xl border border-zinc-200 font-medium" value={pollaData.groupName} onChange={e => setPollaData({ ...pollaData, groupName: e.target.value })} />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Entry Fee (USDC)</label>
+                <input type="number" className="w-full p-4 rounded-xl border border-zinc-200 font-bold text-emerald-600" value={pollaData.entryFee} onChange={e => setPollaData({ ...pollaData, entryFee: e.target.value })} />
+              </div>
+              <div>
+                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Máx. Participantes</label>
+                <input type="number" className="w-full p-4 rounded-xl border border-zinc-200 font-bold" value={pollaData.maxParticipants} onChange={e => setPollaData({ ...pollaData, maxParticipants: e.target.value })} />
+              </div>
             </div>
           </div>
-        </>
+        </div>
       )}
 
       {marketFormat === 'MULTI' && (

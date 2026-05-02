@@ -4,10 +4,12 @@ import { MarketFormat } from '@/hooks/useMarketCreation';
 interface MarketFormatSelectorProps {
   marketFormat: MarketFormat;
   setMarketFormat: (format: MarketFormat) => void;
+  allowedFormats?: MarketFormat[];
 }
 
-export function MarketFormatSelector({ marketFormat, setMarketFormat }: MarketFormatSelectorProps) {
-  const formats: MarketFormat[] = ['BINARY', '1X2', 'POLLA', 'MULTI', 'H2H'];
+export function MarketFormatSelector({ marketFormat, setMarketFormat, allowedFormats }: MarketFormatSelectorProps) {
+  const allFormats: MarketFormat[] = ['BINARY', '1X2', 'POLLA', 'MULTI', 'H2H'];
+  const formats = allowedFormats || allFormats;
   
   return (
     <div className="bg-zinc-50 p-2 rounded-2xl flex flex-wrap gap-2 border border-zinc-200">

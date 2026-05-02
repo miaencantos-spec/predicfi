@@ -197,16 +197,8 @@ export default function DashboardPage() {
                       <div className="flex items-center gap-3 mb-4">
                         <span className={cn(
                           "text-[9px] font-mono font-bold uppercase px-3 py-1 rounded-full border",
-                          bet.is_yes || format === 'POLLA'
-                            ? "bg-emerald-50 text-emerald-600 border-emerald-100" 
-                            : "bg-red-50 text-red-600 border-red-100"
-                        )}>
-                          {format === 'POLLA' ? 'ESTADO' : 'Predicción'}: {predictionLabel}
-                        </span>
-                        <span className={cn(
-                          "text-[9px] font-mono font-bold uppercase px-3 py-1 rounded-full border",
-                          isResolved 
-                            ? "bg-zinc-100 text-zinc-500 border-zinc-200" 
+                          isResolved
+                            ? "bg-zinc-100 text-zinc-500 border-zinc-200"
                             : "bg-blue-50 text-blue-600 border-blue-100 animate-pulse"
                         )}>
                           {isResolved ? "COMPLETADO" : "EN MERCADO"}
@@ -215,9 +207,23 @@ export default function DashboardPage() {
                           {format}
                         </span>
                       </div>
-                      <h4 className="text-lg font-bold text-zinc-900 mb-2 group-hover:text-emerald-600 transition-colors">
+                      <h4 className="text-lg font-bold text-zinc-900 mb-3 group-hover:text-emerald-600 transition-colors">
                         {displayQuestion}
                       </h4>
+                      {/* Predicción destacada DEBAJO de la pregunta */}
+                      <div className="flex items-center gap-2 mb-4">
+                        <span className="text-[10px] font-mono uppercase text-zinc-400 tracking-wider">
+                          {format === 'POLLA' ? 'Estado:' : 'Tu predicción:'}
+                        </span>
+                        <span className={cn(
+                          "text-xl font-black tracking-tight",
+                          bet.is_yes || format === 'POLLA'
+                            ? "text-emerald-600"
+                            : "text-red-500"
+                        )}>
+                          {predictionLabel}
+                        </span>
+                      </div>
                       <div className="flex items-center gap-4 text-[10px] font-mono text-zinc-400 uppercase tracking-tighter">
                         <span>{format === 'POLLA' ? 'Inscripción' : 'Inversión'}: {bet.amount} USDC</span>
                         <span className="w-1 h-1 rounded-full bg-zinc-200" />
