@@ -126,13 +126,16 @@ export function useMarketCreation() {
     if (endTime <= Math.floor(Date.now() / 1000)) return toast.error('Fecha de cierre inválida');
 
     const formattedQuestion = getFormattedQuestion();
-    const aiCheck = await validateWithAI(formattedQuestion);
-    if (!aiCheck.isValid) {
-      toast.error(`❌ Mercado Rechazado: ${aiCheck.reason || 'Corrige los errores antes de continuar.'}`, { duration: 15000 });
-      return;
-    }
+    let finalQuestion = formattedQuestion;
 
-    const finalQuestion = aiCheck.correctedQuestion || formattedQuestion;
+    if (marketFormat !== 'POLLA') {
+      const aiCheck = await validateWithAI(formattedQuestion);
+      if (!aiCheck.isValid) {
+        toast.error(`❌ Mercado Rechazado: ${aiCheck.reason || 'Corrige los errores antes de continuar.'}`, { duration: 15000 });
+        return;
+      }
+      finalQuestion = aiCheck.correctedQuestion || formattedQuestion;
+    }
 
     setIsPending(true);
     try {
