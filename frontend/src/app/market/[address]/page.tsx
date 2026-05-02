@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { BetModal } from '@/components/markets/BetModal';
 import { useMarketDetail } from '@/hooks/useMarketDetail';
 import { useMarketData } from '@/hooks/useMarketData';
@@ -15,6 +15,8 @@ import Link from 'next/link';
 
 export default function MarketDetailPage() {
   const { address } = useParams();
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token');
   const marketAddress = typeof address === 'string' ? address : '';
   
   const [isBetModalOpen, setIsBetModalOpen] = useState(false);
@@ -52,8 +54,11 @@ export default function MarketDetailPage() {
     canClaim,
     yesLabel,
     noLabel,
-    multiOptions
+    multiOptions,
+    isPrivate
   } = marketData;
+
+  const hasAccess = !isPrivate || !!token;
 
   return (
     <div className="min-h-screen bg-white text-zinc-900 pb-24 md:pb-8 pt-10">
@@ -87,6 +92,8 @@ export default function MarketDetailPage() {
               canClaim={canClaim}
               setIsBetModalOpen={setIsBetModalOpen}
               setInitialOutcome={setInitialOutcome}
+              isPrivate={isPrivate}
+              hasAccess={hasAccess}
             />
 
             <RecentActivityFeed recentBets={recentBets} />

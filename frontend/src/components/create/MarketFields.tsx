@@ -6,8 +6,8 @@ interface MarketFieldsProps {
   setBinaryData: (data: { question: string; yesLabel: string; noLabel: string }) => void;
   match1x2Data: { matchTitle: string; homeTeam: string; awayTeam: string };
   setMatch1x2Data: (data: { matchTitle: string; homeTeam: string; awayTeam: string }) => void;
-  pollaData: { type: string; templateId: string; customLeagueName: string; numTeams: string; rounds: string; referenceUrl: string; vaultTitle: string; groupName: string; entryFee: string; maxParticipants: string };
-  setPollaData: (data: { type: string; templateId: string; customLeagueName: string; numTeams: string; rounds: string; referenceUrl: string; vaultTitle: string; groupName: string; entryFee: string; maxParticipants: string }) => void;
+  pollaData: { type: string; templateId: string; customLeagueName: string; numTeams: string; rounds: string; referenceUrl: string; vaultTitle: string; groupName: string; entryFee: string; maxParticipants: string; isPrivate: boolean; inviteEmails: string };
+  setPollaData: (data: any) => void;
   multiData: { question: string; options: string[] };
   setMultiData?: (data: { question: string; options: string[] }) => void;
   handleUpdateMultiOption: (index: number, value: string) => void;
@@ -132,6 +132,42 @@ export function MarketFields({
           </div>
 
           <div className="pt-4 border-t border-zinc-100 space-y-6">
+            <div>
+              <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-3">Privacidad</label>
+              <div className="flex items-center gap-4">
+                <button 
+                  type="button"
+                  onClick={() => setPollaData({ ...pollaData, isPrivate: false })}
+                  className={`flex-1 py-3 rounded-xl border-2 font-black text-xs uppercase tracking-widest transition-all ${!pollaData.isPrivate ? 'border-emerald-500 bg-emerald-50 text-emerald-700' : 'border-zinc-100 text-zinc-400 hover:border-zinc-200'}`}
+                >
+                  Pública
+                </button>
+                <button 
+                  type="button"
+                  onClick={() => setPollaData({ ...pollaData, isPrivate: true })}
+                  className={`flex-1 py-3 rounded-xl border-2 font-black text-xs uppercase tracking-widest transition-all ${pollaData.isPrivate ? 'border-indigo-500 bg-indigo-50 text-indigo-700' : 'border-zinc-100 text-zinc-400 hover:border-zinc-200'}`}
+                >
+                  Privada
+                </button>
+              </div>
+              <p className="mt-2 text-xs text-zinc-500">
+                {!pollaData.isPrivate ? "Cualquier usuario de PredicFi puede unirse a tu Polla." : "Solo los usuarios invitados con el enlace especial podrán unirse."}
+              </p>
+            </div>
+
+            {pollaData.isPrivate && (
+              <div>
+                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Correos Electrónicos a Invitar</label>
+                <textarea 
+                  placeholder="ejemplo@correo.com, amigo@correo.com" 
+                  className="w-full p-4 rounded-xl border border-zinc-200 font-medium min-h-[100px]" 
+                  value={pollaData.inviteEmails} 
+                  onChange={e => setPollaData({ ...pollaData, inviteEmails: e.target.value })} 
+                />
+                <p className="mt-2 text-[10px] text-zinc-400">Separados por comas. Se enviará una invitación vía Resend al crear la bóveda.</p>
+              </div>
+            )}
+
             <div>
               <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-2">Título de tu Bóveda (Polla)</label>
               <input type="text" placeholder="Ej: La Polla de la Oficina" className="w-full p-4 rounded-xl border border-zinc-200 font-medium" value={pollaData.vaultTitle} onChange={e => setPollaData({ ...pollaData, vaultTitle: e.target.value })} />

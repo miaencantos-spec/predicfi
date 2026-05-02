@@ -1,5 +1,6 @@
 import { ProbabilityBar } from './ProbabilityBar';
-import { ShieldCheck, Timer, Info } from 'lucide-react';
+import { ShieldCheck, Timer, Info, Share2, Lock } from 'lucide-react';
+import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { Market } from '@/hooks/useMarketData';
 
@@ -14,6 +15,8 @@ interface TradingTerminalProps {
   canClaim: boolean;
   setIsBetModalOpen: (open: boolean) => void;
   setInitialOutcome: (outcome: boolean | null) => void;
+  isPrivate?: boolean;
+  hasAccess?: boolean;
 }
 
 export function TradingTerminal({
@@ -26,16 +29,25 @@ export function TradingTerminal({
   isResolved,
   canClaim,
   setIsBetModalOpen,
-  setInitialOutcome
+  setInitialOutcome,
+  isPrivate,
+  hasAccess = true
 }: TradingTerminalProps) {
   const total = Number(market.total_yes || 0) + Number(market.total_no || 0);
   const yesPercentage = total > 0 ? Math.round((Number(market.total_yes) / total) * 100) : 50;
 
   return (
     <div className="bg-white border border-zinc-200 p-10 rounded-[2.5rem] shadow-2xl shadow-zinc-100 sticky top-24">
-      <h2 className="text-xs font-black mb-10 text-zinc-400 flex items-center gap-3 uppercase tracking-[0.3em]">
-        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-        {format === 'POLLA' ? 'Vault_Entry' : 'Trading_Terminal'}
+      <h2 className="text-xs font-black mb-10 text-zinc-400 flex items-center justify-between uppercase tracking-[0.3em]">
+        <div className="flex items-center gap-3">
+          <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          {format === 'POLLA' ? 'Vault_Entry' : 'Trading_Terminal'}
+        </div>
+        {isPrivate && (
+          <div className="flex items-center gap-1 text-indigo-500 bg-indigo-50 px-2 py-1 rounded-md">
+            <Lock className="w-3 h-3" /> <span className="text-[9px]">PRIVATE</span>
+          </div>
+        )}
       </h2>
       
       <div className="space-y-10">
@@ -55,13 +67,34 @@ export function TradingTerminal({
 
         <div className="space-y-4">
           {format === 'POLLA' ? (
-            <button 
-              onClick={() => { setIsBetModalOpen(true); }}
-              disabled={isClosed}
-              className="w-full py-6 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-black text-sm uppercase tracking-widest hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:scale-[1.02] active:scale-95 shadow-xl shadow-indigo-200 disabled:opacity-20 disabled:cursor-not-allowed disabled:transform-none"
-            >
-              Unirse a la Polla (10 USDC)
-            </button>
+            <div className="space-y-3">
+              <button 
+                onClick={() => { setIsBetModalOpen(true); }}
+                disabled={isClosed || !hasAccess}
+                className="w-full py-6 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-black text-sm uppercase tracking-widest hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:scale-[1.02] active:scale-95 shadow-xl shadow-indigo-200 disabled:opacity-20 disabled:cursor-not-allowed disabled:transform-none"
+              >
+                {!hasAccess ? "Acceso Restringido" : "Unirse a la Polla (10 USDC)"}
+              </button>
+              
+              {!hasAccess && (
+                <p className="text-xs text-center font-bold text-red-500">
+                  Esta polla es privada. Solicita acceso al administrador.
+                </p>
+              )}
+
+              {isPrivate && hasAccess && (
+                <button 
+                  onClick={() => {
+                    navigator.clipboard.writeText(window.location.href);
+                    toast.success("Enlace copiado al portapapeles");
+                  }}
+                  className="w-full py-4 rounded-2xl bg-zinc-50 text-indigo-600 font-bold text-xs uppercase tracking-widest hover:bg-indigo-50 transition-all flex items-center justify-center gap-2 border border-zinc-200"
+                >
+                  <Share2 className="w-4 h-4" />
+                  Compartir Link de Invitación
+                </button>
+              )}
+            </div>
           ) : format === 'MULTI' ? (
             <div className="grid grid-cols-1 gap-3">
               {multiOptions.map((opt, i) => (

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { client } from '@/providers/web3-provider';
 import { FACTORY_ADDRESS, VAULT_FACTORY_ADDRESS } from '@/lib/constants';
@@ -35,7 +35,9 @@ export function useMarketCreation() {
     vaultTitle: '', 
     groupName: '', 
     entryFee: '10', 
-    maxParticipants: '15' 
+    maxParticipants: '15',
+    isPrivate: false,
+    inviteEmails: ''
   });
   const [multiData, setMultiData] = useState({ question: '', options: ['Opción A', 'Opción B', 'Opción C'] });
   const [h2hData, setH2hData] = useState({ matchTitle: '', optionA: '', optionB: '' });
@@ -44,13 +46,26 @@ export function useMarketCreation() {
   const [isValidating, setIsValidating] = useState(false);
   const [aiFeedback, setAiFeedback] = useState<{ valid: boolean; reason: string; improved_question?: string } | null>(null);
 
+  useEffect(() => {
+    if (marketFormat === 'POLLA' && pollaData.type === 'TEMPLATE') {
+      if (pollaData.templateId === 'worldcup2026') {
+        setEndDate('2026-07-20T00:00');
+      } else if (pollaData.templateId === 'champions2025') {
+        setEndDate('2026-05-31T00:00');
+      } else if (pollaData.templateId === 'copaamerica2028') {
+        setEndDate('2028-07-15T00:00');
+      }
+    }
+  }, [marketFormat, pollaData.type, pollaData.templateId]);
+
   const getFormattedQuestion = () => {
     switch (marketFormat) {
       case 'BINARY': return `[FORMAT:BINARY] ${binaryData.question}`;
       case '1X2': return `[FORMAT:1X2] [1X2: ${match1x2Data.homeTeam} vs ${match1x2Data.awayTeam}] ${match1x2Data.matchTitle}`;
       case 'POLLA': 
         const leagueName = pollaData.type === 'TEMPLATE' ? 'Plantilla Oficial' : pollaData.customLeagueName;
-        return `[FORMAT:POLLA] [LEAGUE:${leagueName}] ${pollaData.vaultTitle} (${pollaData.groupName})`;
+        const privacyTag = pollaData.isPrivate ? '[PRIVATE] ' : '';
+        return `[FORMAT:POLLA] ${privacyTag}[LEAGUE:${leagueName}] ${pollaData.vaultTitle} (${pollaData.groupName})`;
       case 'MULTI': return `[FORMAT:MULTI] [OPTIONS: ${multiData.options.filter(o => o.trim() !== '').join(', ')}] ${multiData.question}`;
       case 'H2H': return `[FORMAT:H2H] [H2H: ${h2hData.optionA} vs ${h2hData.optionB}] ${h2hData.matchTitle}`;
     }
@@ -189,6 +204,23 @@ export function useMarketCreation() {
         toast.warning("Mercado creado on-chain pero hubo un retraso en la sincronización DB.");
       } else {
         toast.success('¡Mercado creado y sincronizado con éxito!');
+        
+        // Trigger invitations if private POLLA
+        if (marketFormat === 'POLLA' && pollaData.isPrivate && pollaData.inviteEmails.trim() !== '') {
+          try {
+            const emails = pollaData.inviteEmails.split(',').map(e => e.trim()).filter(e => e);
+            toast.info("Enviando invitaciones...");
+            await fetch('/api/invite', {
+              method: 'POST',
+              body: JSON.stringify({ vaultId: newMarketAddress, emails, title: pollaData.vaultTitle }),
+              headers: { 'Content-Type': 'application/json' }
+            });
+            toast.success("Invitaciones procesadas correctamente.");
+          } catch (e) {
+            console.error("Invite API error", e);
+            toast.warning("El mercado es privado, pero falló el envío de correos.");
+          }
+        }
       }
 
       router.push('/');

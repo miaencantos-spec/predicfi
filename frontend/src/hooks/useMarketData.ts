@@ -41,6 +41,8 @@ export function useMarketData(market: Market | null) {
     const yesLabel = h2hMatch ? h2hMatch[1] : (match1X2 ? match1X2[1] : "SÍ");
     const noLabel = h2hMatch ? h2hMatch[2] : (match1X2 ? match1X2[2] : "NO");
 
+    const isPrivate = market.question?.includes('[PRIVATE]');
+
     return {
       isExpired,
       isResolved,
@@ -50,7 +52,8 @@ export function useMarketData(market: Market | null) {
       format,
       multiOptions,
       yesLabel,
-      noLabel
+      noLabel,
+      isPrivate
     };
   }, [market]);
 }
